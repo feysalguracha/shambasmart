@@ -6,6 +6,56 @@
 <title>ShambaSmart - Smart Farming Kenya</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+  <!-- SOKO DIRECT START -->
+<div style="background:#e8f5e9; padding:25px; border-radius:15px; margin:20px 0; border:3px solid #2e7d32;">
+<h2 style="text-align:center; font-size:28px; color:#1b5e20;">🛒 SOKO DIRECT - Uza Bila Middleman!</h2>
+<p style="text-align:center; font-size:17px; color:#111;">Mkulima, weka mazao yako hapa. Mnunuzi akupigie moja kwa moja!</p>
+<br>
+
+<!-- FORM YA MKULIMA -->
+<h3>👨🏾‍🌾 WEKA MAZAO YAKO:</h3>
+<input id="sokoName" placeholder="Jina lako - Mfano: Juma, Nakuru" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
+<input id="sokoCrop" placeholder="Mazao - Mfano: Nyanya 100kg" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
+<input id="sokoPrice" placeholder="Bei - Mfano: 8500 KES" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
+<input id="sokoPhone" placeholder="Namba yako ya 【entity-WhatsApp¦canonical_name=WhatsApp】 - Mfano: 0712345678" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
+<button onclick="postSoko()" style="width:100%; padding:15px; background:#2e7d32; color:white; font-size:19px; border:none; border-radius:10px;">📢 TANGAZA SOKONI</button>
+<br><br>
+
+<!-- LIST YA SOKO -->
+<h3>🔥 MAZAO YALIYOPO SOKONI SASA:</h3>
+<div id="sokoList">
+<div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
+<b>🍅 Nyanya - 100kg - Nakuru</b><br>
+Bei: <b>8,500 KES</b> | Muuzaji: Juma<br>
+<a href="https://wa.me/254712345678?text=Nataka%20Nyanya%20zako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
+</div>
+
+<div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
+<b>🌽 Mahindi - 200kg - Machakos</b><br>
+Bei: <b>7,600 KES</b> | Muuzaji: Amina<br>
+<a href="https://wa.me/254722345678?text=Nataka%20Mahindi%20yako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat 【entity-WhatsApp¦canonical_name=WhatsApp】</a>
+</div>
+
+<div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
+<b>🥔 Viazi - 50kg - Nyandarua</b><br>
+Bei: <b>2,100 KES</b> | Muuzaji: Peter<br>
+<a href="https://wa.me/254733345678?text=Nataka%20Viazi%20vyako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
+</div>
+</div>
+<p style="font-size:13px; text-align:center;">ShambaSmart inachukua 2% tu baada ya kuuza. Mkulima anabaki na 98%!</p>
+</div>
+
+<script>
+function postSoko(){
+  var name=document.getElementById('sokoName').value;
+  var crop=document.getElementById('sokoCrop').value;
+  var price=document.getElementById('sokoPrice').value;
+  var phone=document.getElementById('sokoPhone').value;
+  if(!name||!crop||!price||!phone){ alert('Tafadhali jaza sehemu zote!'); return; }
+  alert('Hongera '+name+'! Mazao yako '+crop+' ya '+price+' yamewekwa Sokoni! Wanunuzi watakupigia WhatsApp sasa. Soko Direct - Hakuna Middleman!');
+}
+</script>
+<!-- SOKO DIRECT END -->
 body { background: #f0f7ee; color: #111; }
 header { background: #2e7d32; color: white; padding: 25px 15px; text-align: center; }
 header h1 { font-size: 32px; color: white; }
