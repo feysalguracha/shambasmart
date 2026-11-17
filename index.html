@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShambaSmart - Smart Farming Kenya</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+  body { background: #f0f7e8; color: #222; }
+  header { background: #2e7d32; color: white; padding: 15px; text-align: center; }
+  header h1 { font-size: 28px; }
+  header p { font-size: 14px; opacity: 0.9; }
+  .hero { background: #ffeb3b; padding: 25px 15px; text-align: center; }
+  .hero h2 { font-size: 24px; margin-bottom: 8px; }
+  .hero p { margin-bottom: 15px; }
+  .btn { display: inline-block; background: #2e7d32; color: white; padding: 12px 22px; border-radius: 25px; text-decoration: none; font-weight: bold; margin: 5px; border: none; cursor: pointer; }
+  .btn-yellow { background: #ff9800; }
+  .container { padding: 15px; max-width: 700px; margin: auto; }
+  .card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .card h3 { color: #2e7d32; margin-bottom: 8px; }
+  select, input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  table th, table td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+  table th { background: #2e7d32; color: white; }
+  .price { background: #e8f5e9; padding: 12px; border-radius: 8px; margin-top: 10px; display: none; }
+  footer { background: #222; color: white; text-align: center; padding: 15px; font-size: 13px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🌾 ShambaSmart</h1>
+  <p>Shamba Yako, Akili Yako | Smart Farming for Kenya</p>
+</header>
+<div class="hero">
+  <h2>Karibu Mkulima!</h2>
+  <p>Jua hali ya hewa, bei ya soko, na ugonjwa wa mimea - kwa simu yako tu.</p>
+  <a href="#weather" class="btn">Angalia Hali ya Hewa</a>
+  <a href="#market" class="btn btn-yellow">Bei ya Soko Leo</a>
+</div>
+<div class="container">
+  <div class="card" id="weather">
+    <h3>🌦️ 1. Hali ya Hewa - 7 Days</h3>
+    <p>Chagua kaunti yako:</p>
+    <select id="county" onchange="showWeather()">
+      <option value="">-- Chagua Kaunti --</option>
+      <option value="Machakos">Machakos</option>
+      <option value="Kisii">Kisii</option>
+      <option value="Kakamega">Kakamega</option>
+      <option value="Nakuru">Nakuru</option>
+      <option value="Mombasa">Mombasa</option>
+    </select>
+    <div id="weatherResult" class="price"></div>
+  </div>
+  <div class="card">
+    <h3>🐛 2. Daktari wa Mimea - Pest Doctor</h3>
+    <p>Majani yako yakoje? Chagua dalili:</p>
+    <select id="symptom">
+      <option value="armyworm">Majani yamekuliwa na wadudu</option>
+      <option value="yellow">Majani ni manjano</option>
+      <option value="spots">Majani yana madoa meusi</option>
+    </select>
+    <button class="btn" onclick="diagnose()">Pata Dawa Sasa</button>
+    <div id="diagnosis" class="price"></div>
+  </div>
+  <div class="card" id="market">
+    <h3>💰 3. Bei ya Soko Leo - Market Price</h3>
+    <table>
+      <tr><th>Mazao</th><th>Machakos</th><th>Nairobi</th></tr>
+      <tr><td>Mahindi (90kg)</td><td>3,800 KES</td><td>5,200 KES</td></tr>
+      <tr><td>Nyanya (Crate)</td><td>1,200 KES</td><td>2,000 KES</td></tr>
+      <tr><td>Viazi (50kg)</td><td>2,500 KES</td><td>3,800 KES</td></tr>
+      <tr><td>Vitangui (Kg)</td><td>80 KES</td><td>150 KES</td></tr>
+    </table>
+    <p style="margin-top:10px; color:#d32f2f; font-weight:bold;">⚠️ Usikubali kuuzia middleman 2,000 KES! Bei Nairobi ni 5,200 KES.</p>
+  </div>
+  <div class="card" style="background:#fff3e0; text-align:center;">
+    <h3>⭐ Premium - 50 KES / Mwezi</h3>
+    <p>Pata weather + pest checks unlimited + bei kila siku</p>
+    <button class="btn btn-yellow" onclick="alert('Lipa na M-Pesa: Tuma 50 KES kwa Till 123456 - ShambaSmart')">Lipa na M-Pesa - 50 KES</button>
+    <p style="font-size:12px; margin-top:8px;">SMS pia inafanya kazi kwa kabambe: Tuma "MAIZE MACHAKOS" kwa 40404</p>
+  </div>
+</div>
+<footer>
+  <p>ShambaSmart © 2026 | Built by Kenyan Youth for Kenyan Farmers</p>
+  <p>WhatsApp: +254 700 000 000 | shambasmart.co.ke</p>
+</footer>
+<script>
+function showWeather(){
+  let c = document.getElementById('county').value;
+  let box = document.getElementById('weatherResult');
+  if(c == ""){ box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  if(c == 'Machakos'){ box.innerHTML = "<b>" + c + ":</b> Leo ni jua ☀️, Alhamisi mvua kubwa 🌧️. <b>USIPANDE LEO, panda Alhamisi.</b>"; }
+  else if(c == 'Kisii'){ box.innerHTML = "<b>" + c + ":</b> Mvua kila siku wiki hii 🌧️. Wakati mzuri wa kupanda mahindi!"; }
+  else { box.innerHTML = "<b>" + c + ":</b> Hali ya hewa nzuri, mawingu kidogo ☁️. Unaweza kupanda kesho."; }
+}
+function diagnose(){
+  let s = document.getElementById('symptom').value;
+  let box = document.getElementById('diagnosis');
+  box.style.display = 'block';
+  if(s == 'armyworm'){ box.innerHTML = "<b>Ugonjwa: Fall Armyworm</b><br>Dawa: Duduthrin 300 KES kwa agrovet.<br>Usitumie dawa ya zamani, hii ndio mpya."; }
+  else if(s == 'yellow'){ box.innerHTML = "<b>Ugonjwa: Upungufu wa Nitrogen</b><br>Weka mbolea CAN, 500 KES kwa 10kg. Mwagilia maji."; }
+  else { box.innerHTML = "<b>Ugonjwa: Black Spot</b><br>Ondoa majani yaliyo na madoa, usimwagilie juu ya majani."; }
+}
+</script>
+</body>
+</html>
