@@ -13,24 +13,20 @@ header p { margin-top: 5px; color: white; }
 .container { max-width: 900px; margin: 0 auto; padding: 15px; }
 .card { background: white; border-radius: 12px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 .card h2 { color: #1b5e20; margin-bottom: 10px; font-size: 22px; }
-.card p { color: #111; font-size: 16px; }
 select, button, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
 button { background: #2e7d32; color: white; border: none; font-weight: bold; cursor: pointer; }
+.soko-item { background:white; padding:15px; border-radius:10px; margin:10px 0; border:1px solid #c8e6c9; }
 </style>
 </head>
 <body>
-
 <header>
 <h1>🌱 ShambaSmart</h1>
 <p>Shamba Yako, Akili Yako - Smart Farming Kenya</p>
 <p>Karibu Mkulima! Jua hali ya hewa, bei ya soko, na daktari wa mimea.</p>
 </header>
-
 <div class="container">
-
 <div class="card">
 <h2>1. 🌦️ Hali ya Hewa - 47 Counties</h2>
-<p>Chagua Kaunti yako:</p>
 <select id="county">
 <option value="Nairobi">Nairobi</option>
 <option value="Mombasa">Mombasa</option>
@@ -45,21 +41,17 @@ button { background: #2e7d32; color: white; border: none; font-weight: bold; cur
 <button onclick="checkWeather()">ANGALIA HALI YA HEWA</button>
 <p id="weatherResult" style="font-weight:bold; margin-top:10px;"></p>
 </div>
-
 <div class="card">
 <h2>2. 🐛 Daktari wa Mimea - Pest Doctor</h2>
-<p>Andika dalili ya mmea wako:</p>
 <input id="symptom" placeholder="Mfano: majani yamekuwa njano">
 <button onclick="checkPest()">NISAIDIE DAKTARI</button>
 <p id="pestResult" style="font-weight:bold; margin-top:10px;"></p>
 </div>
-
 <div class="card" style="background:#fff8e1; border:3px solid #ffca28;">
-<h2>⭐ PREMIUM DAKTARI - 50 KES Tu!</h2>
-<p>Daktari wa kweli 24/7 kwa WhatsApp. Chini ya soda!</p>
-<a href="https://wa.me/254712345678?text=Nataka%20Premium%20Daktari%2050KES" style="background:#25D366; color:white; padding:12px; display:block; text-align:center; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:10px;">💬 LIPA 50 KES - CHAT DAKTARI</a>
+<h2>⭐ PREMIUM DAKTARI - 100 KES Tu!</h2>
+<p>Daktari wa kweli 24/7 kwa WhatsApp. Shilingi 100 tu! Chat na Feysal moja kwa moja.</p>
+<a href="https://wa.me/254725731494?text=Nataka%20Premium%20Daktari%20100KES" style="background:#25D366; color:white; padding:12px; display:block; text-align:center; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:10px;">💬 LIPA 100 KES - CHAT DAKTARI</a>
 </div>
-
 <div class="card" style="background:#e8f5e9; border:3px solid #2e7d32;">
 <h2 style="text-align:center;">🛒 SOKO DIRECT - Uza Bila Middleman!</h2>
 <p style="text-align:center;">Mkulima, weka mazao yako hapa. Mnunuzi akupigie moja kwa moja!</p>
@@ -72,27 +64,12 @@ button { background: #2e7d32; color: white; border: none; font-weight: bold; cur
 <button onclick="postSoko()">📢 TANGAZA SOKONI</button>
 <br><br>
 <h3>🔥 MAZAO YALIYOPO SOKONI SASA:</h3>
-<div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
-<b>🍅 Nyanya - 100kg - Nakuru</b><br>
-Bei: <b>8,500 KES</b> | Muuzaji: Juma<br>
-<a href="https://wa.me/254712345678?text=Nataka%20Nyanya%20zako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
-</div>
-<div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
-<b>🌽 Mahindi - 200kg - Machakos</b><br>
-Bei: <b>7,600 KES</b> | Muuzaji: Amina<br>
-<a href="https://wa.me/254722345678?text=Nataka%20Mahindi%20yako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
-</div>
-<div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
-<b>🥔 Viazi - 50kg - Nyandarua</b><br>
-Bei: <b>2,100 KES</b> | Muuzaji: Peter<br>
-<a href="https://wa.me/254733345678?text=Nataka%20Viazi%20vyako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
-</div>
+<p style="font-size:13px; color:#2e7d32;">Mazao ya kweli tu kutoka kwa wakulima wa kweli. Hakuna fake!</p>
+<div id="sokoList"></div>
 <p style="font-size:13px; text-align:center;">ShambaSmart inachukua 2% tu baada ya kuuza. Mkulima anabaki na 98%!</p>
 </div>
-
-<p style="text-align:center; padding:20px;">Imetengenezwa na Feysal Guracha 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
+<p style="text-align:center; padding:20px;">Imetengenezwa na @FeysalGuracha 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
 </div>
-
 <script>
 function checkWeather(){
   var c = document.getElementById('county').value;
@@ -100,7 +77,26 @@ function checkWeather(){
 }
 function checkPest(){
   var s = document.getElementById('symptom').value;
-  document.getElementById('pestResult').innerText = 'Daktari: Kwa dalili "' + s + '" - Tumia dawa ya copper, na ondoa majani yaliyoathirika. Kama inaendelea, tuma picha kwa Premium Daktari.';
+  document.getElementById('pestResult').innerText = 'Daktari: Kwa dalili "' + s + '" - Tumia dawa ya copper, na ondoa majani yaliyoathirika.';
+}
+function getSoko(){
+  var saved = localStorage.getItem('sokoListingsV2');
+  if(saved){ return JSON.parse(saved); }
+  return [];
+}
+function showSoko(){
+  var list = getSoko();
+  if(list.length===0){
+    document.getElementById('sokoList').innerHTML = '<p style="text-align:center; padding:20px; background:#fff; border-radius:10px;">Soko bado liko tupu. Kuwa wa KWANZA kuweka mazao yako hapo juu! 👆</p>';
+    return;
+  }
+  var html = "";
+  for(var i=0; i<list.length; i++){
+    var item = list[i];
+    var waLink = "https://wa.me/" + item.phone + "?text=Nataka%20" + encodeURIComponent(item.crop) + "%20yako%20Soko%20Direct";
+    html += '<div class="soko-item"><b>🌾 ' + item.crop + '</b><br>Bei: <b>' + item.price + '</b> | Muuzaji: ' + item.name + '<br><a href="' + waLink + '" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a></div>';
+  }
+  document.getElementById('sokoList').innerHTML = html;
 }
 function postSoko(){
   var name=document.getElementById('sokoName').value;
@@ -108,9 +104,20 @@ function postSoko(){
   var price=document.getElementById('sokoPrice').value;
   var phone=document.getElementById('sokoPhone').value;
   if(!name||!crop||!price||!phone){ alert('Tafadhali jaza sehemu zote!'); return; }
-  alert('Hongera '+name+'! Mazao yako '+crop+' ya '+price+' yamewekwa Sokoni! Wanunuzi watakupigia WhatsApp sasa.');
+  phone = phone.trim().replace(/\s/g,'');
+  if(phone.startsWith('0')){ phone = '254' + phone.substring(1); }
+  if(phone.startsWith('+')){ phone = phone.substring(1); }
+  var list = getSoko();
+  list.unshift({name:name, crop:crop, price:price, phone:phone});
+  localStorage.setItem('sokoListingsV2', JSON.stringify(list));
+  showSoko();
+  document.getElementById('sokoName').value='';
+  document.getElementById('sokoCrop').value='';
+  document.getElementById('sokoPrice').value='';
+  document.getElementById('sokoPhone').value='';
+  alert('Hongera '+name+'! Mazao yako '+crop+' yamehifadhiwa Sokoni FOREVER!');
 }
+showSoko();
 </script>
-
 </body>
 </html>
