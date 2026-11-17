@@ -6,200 +6,111 @@
 <title>ShambaSmart - Smart Farming Kenya</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-  <!-- SOKO DIRECT START -->
-<div style="background:#e8f5e9; padding:25px; border-radius:15px; margin:20px 0; border:3px solid #2e7d32;">
-<h2 style="text-align:center; font-size:28px; color:#1b5e20;">🛒 SOKO DIRECT - Uza Bila Middleman!</h2>
-<p style="text-align:center; font-size:17px; color:#111;">Mkulima, weka mazao yako hapa. Mnunuzi akupigie moja kwa moja!</p>
+body { background: #f0f7ee; color: #111; }
+header { background: #2e7d32; color: white; padding: 25px 15px; text-align: center; }
+header h1 { font-size: 32px; color: white; }
+header p { margin-top: 5px; color: white; }
+.container { max-width: 900px; margin: 0 auto; padding: 15px; }
+.card { background: white; border-radius: 12px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.card h2 { color: #1b5e20; margin-bottom: 10px; font-size: 22px; }
+.card p { color: #111; font-size: 16px; }
+select, button, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
+button { background: #2e7d32; color: white; border: none; font-weight: bold; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>🌱 ShambaSmart</h1>
+<p>Shamba Yako, Akili Yako - Smart Farming Kenya</p>
+<p>Karibu Mkulima! Jua hali ya hewa, bei ya soko, na daktari wa mimea.</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>1. 🌦️ Hali ya Hewa - 47 Counties</h2>
+<p>Chagua Kaunti yako:</p>
+<select id="county">
+<option value="Nairobi">Nairobi</option>
+<option value="Mombasa">Mombasa</option>
+<option value="Kilifi">Kilifi</option>
+<option value="Machakos">Machakos</option>
+<option value="Nakuru">Nakuru</option>
+<option value="Marsabit">Marsabit</option>
+<option value="Nyandarua">Nyandarua</option>
+<option value="Kisumu">Kisumu</option>
+<option value="Turkana">Turkana</option>
+</select>
+<button onclick="checkWeather()">ANGALIA HALI YA HEWA</button>
+<p id="weatherResult" style="font-weight:bold; margin-top:10px;"></p>
+</div>
+
+<div class="card">
+<h2>2. 🐛 Daktari wa Mimea - Pest Doctor</h2>
+<p>Andika dalili ya mmea wako:</p>
+<input id="symptom" placeholder="Mfano: majani yamekuwa njano">
+<button onclick="checkPest()">NISAIDIE DAKTARI</button>
+<p id="pestResult" style="font-weight:bold; margin-top:10px;"></p>
+</div>
+
+<div class="card" style="background:#fff8e1; border:3px solid #ffca28;">
+<h2>⭐ PREMIUM DAKTARI - 50 KES Tu!</h2>
+<p>Daktari wa kweli 24/7 kwa WhatsApp. Chini ya soda!</p>
+<a href="https://wa.me/254712345678?text=Nataka%20Premium%20Daktari%2050KES" style="background:#25D366; color:white; padding:12px; display:block; text-align:center; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:10px;">💬 LIPA 50 KES - CHAT DAKTARI</a>
+</div>
+
+<div class="card" style="background:#e8f5e9; border:3px solid #2e7d32;">
+<h2 style="text-align:center;">🛒 SOKO DIRECT - Uza Bila Middleman!</h2>
+<p style="text-align:center;">Mkulima, weka mazao yako hapa. Mnunuzi akupigie moja kwa moja!</p>
 <br>
-
-<!-- FORM YA MKULIMA -->
 <h3>👨🏾‍🌾 WEKA MAZAO YAKO:</h3>
-<input id="sokoName" placeholder="Jina lako - Mfano: Juma, Nakuru" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
-<input id="sokoCrop" placeholder="Mazao - Mfano: Nyanya 100kg" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
-<input id="sokoPrice" placeholder="Bei - Mfano: 8500 KES" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
-<input id="sokoPhone" placeholder="Namba yako ya 【entity-WhatsApp¦canonical_name=WhatsApp】 - Mfano: 0712345678" style="width:100%; padding:12px; margin:5px 0; font-size:16px;">
-<button onclick="postSoko()" style="width:100%; padding:15px; background:#2e7d32; color:white; font-size:19px; border:none; border-radius:10px;">📢 TANGAZA SOKONI</button>
+<input id="sokoName" placeholder="Jina lako - Mfano: Juma, Nakuru">
+<input id="sokoCrop" placeholder="Mazao - Mfano: Nyanya 100kg">
+<input id="sokoPrice" placeholder="Bei - Mfano: 8500 KES">
+<input id="sokoPhone" placeholder="Namba ya WhatsApp - 0712345678">
+<button onclick="postSoko()">📢 TANGAZA SOKONI</button>
 <br><br>
-
-<!-- LIST YA SOKO -->
 <h3>🔥 MAZAO YALIYOPO SOKONI SASA:</h3>
-<div id="sokoList">
 <div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
 <b>🍅 Nyanya - 100kg - Nakuru</b><br>
 Bei: <b>8,500 KES</b> | Muuzaji: Juma<br>
 <a href="https://wa.me/254712345678?text=Nataka%20Nyanya%20zako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
 </div>
-
 <div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
 <b>🌽 Mahindi - 200kg - Machakos</b><br>
 Bei: <b>7,600 KES</b> | Muuzaji: Amina<br>
-<a href="https://wa.me/254722345678?text=Nataka%20Mahindi%20yako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat 【entity-WhatsApp¦canonical_name=WhatsApp】</a>
+<a href="https://wa.me/254722345678?text=Nataka%20Mahindi%20yako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
 </div>
-
 <div style="background:white; padding:15px; border-radius:10px; margin:10px 0;">
 <b>🥔 Viazi - 50kg - Nyandarua</b><br>
 Bei: <b>2,100 KES</b> | Muuzaji: Peter<br>
 <a href="https://wa.me/254733345678?text=Nataka%20Viazi%20vyako%20Soko%20Direct" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a>
 </div>
-</div>
 <p style="font-size:13px; text-align:center;">ShambaSmart inachukua 2% tu baada ya kuuza. Mkulima anabaki na 98%!</p>
 </div>
 
+<p style="text-align:center; padding:20px;">Imetengenezwa na Feysal Guracha 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
+</div>
+
 <script>
+function checkWeather(){
+  var c = document.getElementById('county').value;
+  document.getElementById('weatherResult').innerText = 'Hali ya hewa ' + c + ': Mvua kidogo inatarajiwa wiki hii. Wakati mzuri wa kupanda! 🌧️';
+}
+function checkPest(){
+  var s = document.getElementById('symptom').value;
+  document.getElementById('pestResult').innerText = 'Daktari: Kwa dalili "' + s + '" - Tumia dawa ya copper, na ondoa majani yaliyoathirika. Kama inaendelea, tuma picha kwa Premium Daktari.';
+}
 function postSoko(){
   var name=document.getElementById('sokoName').value;
   var crop=document.getElementById('sokoCrop').value;
   var price=document.getElementById('sokoPrice').value;
   var phone=document.getElementById('sokoPhone').value;
   if(!name||!crop||!price||!phone){ alert('Tafadhali jaza sehemu zote!'); return; }
-  alert('Hongera '+name+'! Mazao yako '+crop+' ya '+price+' yamewekwa Sokoni! Wanunuzi watakupigia WhatsApp sasa. Soko Direct - Hakuna Middleman!');
+  alert('Hongera '+name+'! Mazao yako '+crop+' ya '+price+' yamewekwa Sokoni! Wanunuzi watakupigia WhatsApp sasa.');
 }
 </script>
-<!-- SOKO DIRECT END -->
-body { background: #f0f7ee; color: #111; }
-header { background: #2e7d32; color: white; padding: 25px 15px; text-align: center; }
-header h1 { font-size: 32px; color: white; }
-header p { margin-top: 5px; color: white; }
-.container { max-width: 900px; margin: 0 auto; padding: 15px; }
-.card { background: white; border-radius: 12px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.card h2 { color: #1b5e20; margin-bottom: 10px; font-size: 22px; }
-.card p { color: #111; font-size: 16px; }
-select, button, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; color: #111; background: white; }
-button { background: #2e7d32; color: white; border: none; font-weight: bold; cursor: pointer; }
-button:hover { background: #1b5e20; }
-.result { background: #d7ffd9; padding: 15px; border-radius: 8px; margin-top: 10px; display: none; color: #111; font-size: 17px; font-weight: bold; border: 2px solid #2e7d32; }
-.price-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; color: #111; font-weight: bold; }
-.warn { background: #fff3cd; padding: 12px; border-radius: 8px; margin-top: 10px; font-weight: bold; color: #111; }
-.premium { background: #fff8e1; border: 2px solid #ffca28; }
-footer { text-align: center; padding: 20px; color: #111; font-size: 14px; font-weight: bold; }
-</style>
-</head>
-<body>
-<header>
-<header style="padding:0; overflow:hidden;">
-<img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&q=80" style="width:100%; height:260px; object-fit:cover; display:block;" alt="Kenyan Shamba">
-<div style="padding:25px 15px;">
-<h1>🌾 ShambaSmart</h1>
-<p>Shamba Yako, Akili Yako | Smart Farming for Kenya</p>
-</div>
-</header>
 
-<div class="container">
-<div class="card">
-<h2>Karibu Mkulima!</h2>
-<p>Jua hali ya hewa, bei ya soko, na ugonjwa wa mimea - kwa Kaunti yako yote 47!</p>
-</div>
-
-<div class="card">
-<h2>1. Hali ya Hewa - 47 Counties</h2>
-<p>Chagua Kaunti yako:</p>
-<select id="county">
-<option value="">-- Chagua Kaunti --</option>
-<option>Mombasa</option><option>Kwale</option><option>Kilifi</option><option>Tana River</option><option>Lamu</option><option>Taita-Taveta</option>
-<option>Garissa</option><option>Wajir</option><option>Mandera</option>
-<option>Isiolo</option><option>Marsabit</option>
-<option>Meru</option><option>Tharaka-Nithi</option><option>Embu</option><option>Kitui</option><option>Machakos</option><option>Makueni</option>
-<option>Nyandarua</option><option>Nyeri</option><option>Kirinyaga</option><option>Murang'a</option><option>Kiambu</option><option>Nairobi</option>
-<option>Turkana</option><option>West Pokot</option><option>Samburu</option><option>Trans Nzoia</option><option>Uasin Gishu</option><option>Elgeyo-Marakwet</option><option>Nandi</option><option>Baringo</option><option>Laikipia</option><option>Nakuru</option><option>Narok</option><option>Kajiado</option><option>Kericho</option><option>Bomet</option>
-<option>Kakamega</option><option>Vihiga</option><option>Bungoma</option><option>Busia</option><option>Siaya</option><option>Kisumu</option><option>Homa Bay</option><option>Migori</option><option>Kisii</option><option>Nyamira</option>
-</select>
-<button onclick="showWeather()">Angalia Hali ya Hewa</button>
-<div id="weatherResult" class="result"></div>
-</div>
-
-<div class="card">
-<h2>2. Daktari wa Mimea - Pest Doctor</h2>
-<p>Andika dalili ya mmea wako:</p>
-<input type="text" id="symptom" placeholder="e.g. majani mekundu, wadudu weupe...">
-<button onclick="diagnose()">Pata Dawa Sasa</button>
-<div id="doctorResult" class="result"></div>
-</div>
-
-<div class="card">
-<h2>3. Bei ya Soko Leo</h2>
-<div class="price-row"><span>🌽 Mahindi - Nairobi</span><b>5,200 KES</b></div>
-<div class="price-row"><span>🌽 Mahindi - Machakos</span><b>3,800 KES</b></div>
-<div class="price-row"><span>🍅 Nyanya - Nairobi</span><b>8,500 KES</b></div>
-<div class="price-row"><span>🥔 Viazi - Nakuru</span><b>4,200 KES</b></div>
-<div class="price-row"><span>🥬 Vitunguu - Kisumu</span><b>6,000 KES</b></div>
-<div class="warn">⚠️ Usikubali kuuzia middleman 2,000 KES! Bei Nairobi ni 5,200 KES.</div>
-</div>
-
-<div class="card premium">
-<h2>⭐ Premium - 50 KES / Mwezi</h2>
-<p>Pata utabiri wa siku 14, bei za kila siku, na daktari wa mimea 24/7</p>
-<button onclick="alert('Lipa na M-Pesa: Tuma 50 KES kwa 0000000')">Lipa na M-Pesa</button>
-</div>
-
-</div>
-<footer>ShambaSmart © 2026 | Built by @feysal guracha</footer>
-
-<script>
-const data = {
-"Mombasa":"☀️ Hot & Humid | 24-33°C | Mvua 1000mm | Panda: Coconut, Cassava, Mboga",
-"Kwale":"☀️ Hot & Humid | 24-32°C | Mvua 1100mm | Panda: Cashew, Coconut, Mahindi",
-"Kilifi":"☀️ Hot & Humid | 24-33°C | Mvua 900mm | Panda: Mango, Cashew, Coconut",
-"Tana River":"☀️ Hot & Dry | 25-35°C | Mvua 600mm | Panda: Mahindi, Mchele, Mango",
-"Lamu":"☀️ Hot & Humid | 25-33°C | Mvua 1000mm | Panda: Coconut, Cashew",
-"Taita-Taveta":"🌤️ Warm & Dry | 20-30°C | Mvua 700mm | Panda: Horticulture, Mahindi, Maharage",
-"Garissa":"🔥 Hot & Arid | 25-38°C | Mvua 300mm | Panda: Livestock, Ngamia, Mtama",
-"Wajir":"🔥 Hot & Arid | 26-38°C | Mvua 250mm | Panda: Livestock, Ngamia",
-"Mandera":"🔥 Hottest Desert | 27-40°C | Mvua 200mm | Panda: Livestock, Ngamia",
-"Isiolo":"🔥 Hot & Arid | 24-36°C | Mvua 500mm | Panda: Livestock, Ngamia, Mtama",
-"Marsabit":"🔥 Hot & Arid | 22-34°C | Mvua 400mm | Panda: Livestock, Ngamia",
-"Meru":"🌤️ Warm Highland | 16-28°C | Mvua 1200mm | Panda: Miraa, Kahawa, Chai, Mahindi",
-"Tharaka-Nithi":"🌤️ Warm & Dry | 18-30°C | Mvua 800mm | Panda: Mtama, Sorghum, Green Grams",
-"Embu":"🌤️ Warm Savanna | 17-29°C | Mvua 1100mm | Panda: Mahindi, Kahawa, Miraa",
-"Kitui":"🌤️ Hot Semi-Arid | 20-33°C | Mvua 700mm | Panda: Green Grams, Mtama, Mango",
-"Machakos":"🌤️ Warm Highland | 16-28°C | Mvua 800mm | Panda: Mahindi, Maharage, Horticulture",
-"Makueni":"🌤️ Hot Semi-Arid | 19-32°C | Mvua 600mm | Panda: Mango, Green Grams, Pigeon Peas",
-"Nyandarua":"❄️ Cold & Wet | 5-18°C | Mvua 1400mm | Panda: Viazi, Cabbage, Karoti, Dairy",
-"Nyeri":"🌧️ Cool & Wet | 12-24°C | Mvua 1300mm | Panda: Kahawa, Chai, Dairy",
-"Kirinyaga":"🌧️ Cool & Wet | 14-27°C | Mvua 1300mm | Panda: Mchele (Mwea), Kahawa, Chai",
-"Murang'a":"🌧️ Cool & Wet | 13-26°C | Mvua 1400mm | Panda: Chai, Kahawa, Avocado",
-"Kiambu":"🌧️ Cool & Wet | 12-24°C | Mvua 1200mm | Panda: Kahawa, Chai, Dairy, Mboga",
-"Nairobi":"🌤️ Cool Temperate | 12-25°C | Mvua 900mm | Panda: Urban Farming, Mboga",
-"Turkana":"🔥 Very Hot Arid | 28-37°C | Mvua 200mm | Panda: Livestock, Mtama, Samaki",
-"West Pokot":"🌤️ Warm to Hot | 18-32°C | Mvua 800mm | Panda: Mahindi, Mtama, Livestock",
-"Samburu":"🔥 Hot & Arid | 22-35°C | Mvua 400mm | Panda: Livestock, Ngamia",
-"Trans Nzoia":"🌧️ Cool & Wet | 13-25°C | Mvua 1300mm | Panda: MAHINDI - Breadbasket ya Kenya",
-"Uasin Gishu":"🌧️ Cool & Wet | 12-24°C | Mvua 1200mm | Panda: Mahindi, Ngano, Dairy",
-"Elgeyo-Marakwet":"🌤️ Cool Highland | 14-27°C | Mvua 1100mm | Panda: Mahindi, Millet, Livestock",
-"Nandi":"🌧️ Cool & Wet | 13-24°C | Mvua 1500mm | Panda: Chai, Mahindi, Dairy",
-"Baringo":"🌤️ Warm Semi-Arid | 18-31°C | Mvua 700mm | Panda: Mahindi, Livestock, Asali",
-"Laikipia":"🌤️ Cool & Dry | 12-26°C | Mvua 700mm | Panda: Ngano, Livestock, Horticulture",
-"Nakuru":"🌤️ Cool to Warm | 12-26°C | Mvua 1000mm | Panda: Mahindi, Ngano, Maua, Dairy",
-"Narok":"🌤️ Cool to Warm | 12-26°C | Mvua 900mm | Panda: Ngano, Mahindi, Livestock",
-"Kajiado":"🌤️ Warm Semi-Arid | 16-30°C | Mvua 600mm | Panda: Livestock, Horticulture",
-"Kericho":"🌧️ Cool Very Wet | 12-24°C | Mvua 1800mm | Panda: CHAI",
-"Bomet":"🌧️ Cool & Wet | 12-24°C | Mvua 1600mm | Panda: Chai, Dairy, Mahindi",
-"Kakamega":"🌧️ Warm & Wet | 15-28°C | Mvua 1800mm | Panda: Sugarcane, Mahindi, Chai",
-"Vihiga":"🌧️ Warm & Wet | 14-27°C | Mvua 1700mm | Panda: Chai, Mahindi, Maharage",
-"Bungoma":"🌧️ Warm & Wet | 15-28°C | Mvua 1500mm | Panda: Sugarcane, Mahindi, Kahawa",
-"Busia":"🌧️ Warm & Wet | 16-29°C | Mvua 1400mm | Panda: Mahindi, Cassava, Samaki",
-"Siaya":"🌧️ Warm & Wet | 16-30°C | Mvua 1300mm | Panda: Mahindi, Samaki, Cassava",
-"Kisumu":"🌤️ Warm Humid | 18-31°C | Mvua 1200mm | Panda: Mchele, Sugarcane, Samaki",
-"Homa Bay":"🌤️ Warm Humid | 17-30°C | Mvua 1200mm | Panda: Mahindi, Samaki, Millet",
-"Migori":"🌧️ Warm & Wet | 16-29°C | Mvua 1400mm | Panda: Sugarcane, Mahindi, Tobacco",
-"Kisii":"🌧️ Cool Very Wet | 14-26°C | Mvua 1800mm | Panda: Chai, Kahawa, Ndizi",
-"Nyamira":"🌧️ Cool Very Wet | 13-25°C | Mvua 1700mm | Panda: Chai, Ndizi, Dairy"
-};
-function showWeather(){
-  let c = document.getElementById('county').value;
-  let r = document.getElementById('weatherResult');
-  if(!c){ alert('Chagua kaunti kwanza!'); return; }
-  r.style.display='block';
-  r.innerHTML = '<b>'+c+'</b><br><br>'+data[c]+'<br><br>🌧️ Msimu: Long Rains Mar-May, Short Rains Oct-Dec<br>💡 Tip: Panda kulingana na hali ya hewa hapo juu!';
-}
-function diagnose(){
-  let s = document.getElementById('symptom').value.toLowerCase();
-  let r = document.getElementById('doctorResult');
-  r.style.display='block';
-  if(s.includes('weupe') || s.includes('wadudu')) r.innerHTML='🐛 Ugonjwa: Aphids / Whiteflies<br>💊 Dawa: Neem oil au Actara. Nyunyiza asubuhi.';
-  else if(s.includes('mekundu') || s.includes('majani')) r.innerHTML='🍂 Ugonjwa: Leaf Spot / Blight<br>💊 Dawa: Copper fungicide. Ondoa majani yaliyoathirika.';
-  else if(s.includes('kukauka') || s.includes('kauka')) r.innerHTML='💧 Shida: Ukame / Maji kidogo<br>💊 Suluhisho: Mulching + maji asubuhi na jioni.';
-  else r.innerHTML='👨‍🌾 Tumepokea: '+s+'<br>💊 Jaribu Neem Oil na uangalie kama inasaidia. Kwa Premium, daktari atakujibu 24/7.';
-}
-</script>
 </body>
 </html>
