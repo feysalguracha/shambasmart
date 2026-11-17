@@ -16,13 +16,15 @@ header p { margin-top: 5px; color: white; }
 select, button, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
 button { background: #2e7d32; color: white; border: none; font-weight: bold; cursor: pointer; }
 .soko-item { background:white; padding:15px; border-radius:10px; margin:10px 0; border:1px solid #c8e6c9; }
+.weather-box { background:#e3f2fd; padding:15px; border-radius:10px; margin-top:10px; border-left:5px solid #1976d2; }
+.plant-box { background:#fff3e0; padding:15px; border-radius:10px; margin-top:10px; border-left:5px solid #ff9800; }
 </style>
 </head>
 <body>
 <header>
 <h1>🌱 ShambaSmart</h1>
 <p>Shamba Yako, Akili Yako - Smart Farming Kenya</p>
-<p>Karibu Mkulima! Jua hali ya hewa, bei ya soko, na mshauri wa mimea.</p>
+<p>Karibu Mkulima! Jua hali ya hewa, nini kupanda, na mshauri wa mimea.</p>
 </header>
 <div class="container">
 <div class="card">
@@ -77,10 +79,18 @@ button { background: #2e7d32; color: white; border: none; font-weight: bold; cur
 <option value="Nairobi">47. Nairobi</option>
 </select>
 <button onclick="checkWeather()">ANGALIA HALI YA HEWA</button>
-<p id="weatherResult" style="font-weight:bold; margin-top:10px;"></p>
+<div id="weatherResult" class="weather-box" style="display:none;"></div>
 </div>
+
+<div class="card" style="background:#fff8e1; border:3px solid #ff9800;">
+<h2>2. 🌾 NIPANDE NINI SASA? - Novemba / Mvua Mfupi</h2>
+<p>Chagua county yako hapo juu, halafu bonyeza hapa chini. Tutakuambia nini kupanda SASA ili upate pesa!</p>
+<button onclick="whatToPlant()" style="background:#ff9800;">🌱 NIONYESHE NIPANDE NINI SASA</button>
+<div id="plantResult" class="plant-box" style="display:none;"></div>
+</div>
+
 <div class="card">
-<h2>2. 🐛 Mshauri wa Mimea - BURE</h2>
+<h2>3. 🐛 Mshauri wa Mimea - BURE</h2>
 <input id="symptom" placeholder="Mfano: majani yamekuwa njano">
 <button onclick="checkPest()">NISAIDIE MSHAURI</button>
 <p id="pestResult" style="font-weight:bold; margin-top:10px;"></p>
@@ -113,12 +123,71 @@ button { background: #2e7d32; color: white; border: none; font-weight: bold; cur
 <div id="sokoList"></div>
 <p style="font-size:13px; text-align:center;">ShambaSmart inachukua 2% tu baada ya kuuza. Mkulima anabaki na 98%!</p>
 </div>
-<p style="text-align:center; padding:20px;">Imetengenezwa na @Feiii 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
+<p style="text-align:center; padding:20px;">Imetengenezwa na @Feii 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
 </div>
 <script>
+var countyData = {
+  "Mombasa":{w:"Joto na Unyevu, Mvua kidogo pwani. 29°C", crop:"Mihogo, Mchicha, Nazi, Pilipili", tip:"Panda mihogo sasa - inastahimili chumvi ya pwani.", plant:"SASA PANDA: Mihogo (itakomaa miezi 8), Mchicha (siku 21 tu - pesa haraka!), Pilipili Hoho. USIPANDE: Mahindi - mvua haitoshi."},
+  "Kwale":{w:"Joto na Mvua kidogo. 28°C", crop:"Korosho, Mihogo, Mahindi, Miembe", tip:"Korosho ni bora sana Kwale.", plant:"SASA PANDA: Mihogo, Kunde, Mchicha. Panda miembe kwa msimu ujao."},
+  "Kilifi":{w:"Joto na Mvua kidogo. 29°C", crop:"Mihogo, Korosho, Nazi, Mahindi", tip:"Mihogo na korosho hufanya vizuri Kilifi.", plant:"SASA PANDA: Mihogo, Kunde, Mchicha. Mvua ni kidogo - usipande mahindi mengi."},
+  "Tana River":{w:"Joto na Kavu. 32°C", crop:"Mchele, Mtama, Mahindi, Ndizi", tip:"Tumia maji ya Tana River kwa umwagiliaji.", plant:"SASA PANDA: Mchele kwa umwagiliaji, Mtama, Kunde."},
+  "Lamu":{w:"Joto na Unyevu. 30°C", crop:"Nazi, Mihogo, Mchele", tip:"Nazi ni zao kubwa Lamu.", plant:"SASA PANDA: Mihogo, Mchele, Mchicha."},
+  "Taita-Taveta":{w:"Joto wastani, Mvua kidogo. 26°C", crop:"Ndizi, Mahindi, Nyanya, Pilipili", tip:"Ndizi hufanya vizuri kwenye milima ya Taita.", plant:"SASA PANDA: Nyanya, Pilipili, Mahindi ya mapema."},
+  "Garissa":{w:"Kavu Sana na Joto Kali. 34°C", crop:"Mtama, Mbuzi, Ngamia, Kunde", tip:"Kavu sana - fuga mbuzi/ngamia, panda mtama.", plant:"SASA PANDA: Mtama tu kwa umwagiliaji kidogo, Kunde. USIPANDE mahindi - itakauka. Fuga mbuzi."},
+  "Wajir":{w:"Kavu Sana na Joto Kali. 35°C", crop:"Mtama, Mbuzi, Ngamia", tip:"Fuga mifugo - kilimo cha mvua ni hatari hapa.", plant:"SASA: Usipande - fuga mbuzi/ngamia. Kama una maji, panda mtama kidogo."},
+  "Mandera":{w:"Kavu Sana na Joto Kali. 35°C", crop:"Mtama, Mbuzi, Ngamia", tip:"Panda mtama na fuga mbuzi.", plant:"SASA: Mtama na Kunde kwa maji kidogo. Fuga mbuzi."},
+  "Marsabit":{w:"Kavu na Joto. 30°C", crop:"Mtama, Mbuzi, Ngamia, Kunde", tip:"Marsabit ni kavu - panda mtama, fuga mbuzi.", plant:"SASA PANDA: Mtama (siku 60-90), Kunde (siku 60), Mchicha kwa maji kidogo. USIPANDE: Mahindi - inahitaji mvua nyingi, itakauka Marsabit!"},
+  "Isiolo":{w:"Kavu na Joto. 31°C", crop:"Mtama, Mbuzi, Kunde", tip:"Tumia umwagiliaji kidogo, panda mtama.", plant:"SASA PANDA: Mtama, Kunde, Kitunguu kwa umwagiliaji."},
+  "Meru":{w:"Baridi kidogo, Mvua nzuri. 22°C", crop:"Kahawa, Ndizi, Mahindi, Miraa", tip:"Kahawa na ndizi ni bora Meru.", plant:"SASA PANDA: Mahindi, Maharage, Viazi, Ndizi."},
+  "Tharaka-Nithi":{w:"Joto wastani, Mvua nzuri. 24°C", crop:"Mahindi, Ndizi, Kahawa, Mtama", tip:"Mahindi na ndizi hufanya vizuri.", plant:"SASA PANDA: Mahindi, Maharage, Ndizi."},
+  "Embu":{w:"Baridi kidogo, Mvua nzuri. 22°C", crop:"Kahawa, Macadamia, Mahindi, Ndizi", tip:"Macadamia na kahawa ni pesa kubwa Embu.", plant:"SASA PANDA: Mahindi, Maharage, Macadamia kwa muda mrefu."},
+  "Kitui":{w:"Kavu, Joto. 28°C", crop:"Mtama, Kunde, Mihogo, Maembe", tip:"Panda mtama na kunde - zinastahimili ukame Kitui.", plant:"SASA PANDA: Mtama, Kunde, Mihogo, Maembe. USIPANDE mahindi mengi - mvua ni kidogo."},
+  "Machakos":{w:"Kavu kidogo, Joto. 25°C", crop:"Maembe, Mtama, Kunde, Mahindi", tip:"Maembe ya Machakos ni maarufu!", plant:"SASA PANDA: Kunde, Mtama, Maembe, Nyanya kwa umwagiliaji."},
+  "Makueni":{w:"Kavu kidogo, Joto. 26°C", crop:"Maembe, Mtama, Kunde, Ndizi", tip:"Maembe na mtama ni bora Makueni.", plant:"SASA PANDA: Maembe, Mtama, Kunde."},
+  "Nyandarua":{w:"Baridi na Mvua nyingi. 16°C", crop:"Viazi, Cabbage, Karoti, Mahindi", tip:"Viazi na cabbage ni bora sana kwa baridi ya Nyandarua.", plant:"SASA PANDA: Viazi (miezi 3), Cabbage, Karoti, Mahindi. Baridi ni rafiki yako!"},
+  "Nyeri":{w:"Baridi, Mvua nzuri. 19°C", crop:"Kahawa, Chai, Viazi, Mahindi", tip:"Kahawa na chai ni bora Nyeri.", plant:"SASA PANDA: Viazi, Mahindi, Maharage, Cabbage."},
+  "Kirinyaga":{w:"Baridi kidogo, Mvua nzuri. 21°C", crop:"Mchele, Kahawa, Ndizi, Nyanya", tip:"Mchele wa Mwea ni maarufu!", plant:"SASA PANDA: Mchele, Nyanya, Mahindi, Ndizi."},
+  "Murang'a":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Kahawa, Ndizi, Macadamia, Avocado", tip:"Avocado na macadamia ni pesa kubwa Murang'a.", plant:"SASA PANDA: Avocado, Macadamia, Ndizi, Mahindi."},
+  "Kiambu":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Kahawa, Chai, Cabbage, Strawberry", tip:"Panda mboga za soko la Nairobi.", plant:"SASA PANDA: Cabbage, Sukuma, Spinach, Strawberry - soko la Nairobi liko karibu, utauza haraka!"},
+  "Turkana":{w:"Kavu Sana na Joto Kali. 36°C", crop:"Mtama, Mbuzi, Ngamia, Samaki", tip:"Kavu sana - fuga mbuzi/ngamia, panda mtama kwa umwagiliaji.", plant:"SASA: Mtama kwa umwagiliaji, Kunde. Fuga mbuzi/ngamia. USIPANDE mahindi."},
+  "West Pokot":{w:"Kavu kidogo, Joto. 27°C", crop:"Mtama, Mahindi, Mbuzi", tip:"Panda mtama na mahindi.", plant:"SASA PANDA: Mtama, Mahindi, Kunde."},
+  "Samburu":{w:"Kavu na Joto. 30°C", crop:"Mtama, Mbuzi, Ngamia", tip:"Fuga mifugo, panda mtama.", plant:"SASA PANDA: Mtama, Kunde. Fuga mbuzi."},
+  "Trans Nzoia":{w:"Baridi kidogo, Mvua nyingi. 20°C", crop:"Mahindi, Ngano, Mahindi", tip:"Mahindi ni mfalme Trans Nzoia!", plant:"SASA PANDA: Mahindi (mfalme!), Maharage, Ngano."},
+  "Uasin Gishu":{w:"Baridi kidogo, Mvua nzuri. 19°C", crop:"Mahindi, Ngano, Maziwa", tip:"Mahindi na ngano ni bora Eldoret.", plant:"SASA PANDA: Mahindi, Ngano, Viazi."},
+  "Elgeyo-Marakwet":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Mahindi, Viazi, Mboga", tip:"Mahindi na viazi hufanya vizuri.", plant:"SASA PANDA: Mahindi, Viazi, Cabbage."},
+  "Nandi":{w:"Baridi, Mvua nyingi. 19°C", crop:"Chai, Mahindi, Maziwa", tip:"Chai ni bora Nandi.", plant:"SASA PANDA: Mahindi, Chai, Viazi."},
+  "Baringo":{w:"Joto na Kavu kidogo. 27°C", crop:"Mtama, Mahindi, Mbuzi", tip:"Panda mtama na mahindi.", plant:"SASA PANDA: Mtama, Mahindi, Kunde."},
+  "Laikipia":{w:"Baridi kidogo, Mvua wastani. 21°C", crop:"Ngano, Mahindi, Viazi", tip:"Ngano na viazi ni bora Laikipia.", plant:"SASA PANDA: Ngano, Mahindi, Viazi."},
+  "Nakuru":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Viazi, Mahindi, Nyanya, Maua", tip:"Viazi na nyanya ni bora Nakuru.", plant:"SASA PANDA: Viazi, Nyanya, Mahindi, Cabbage - soko kubwa Nakuru!"},
+  "Narok":{w:"Baridi kidogo, Mvua wastani. 21°C", crop:"Ngano, Mahindi, Mbuzi", tip:"Ngano ni bora Narok.", plant:"SASA PANDA: Ngano, Mahindi, Viazi."},
+  "Kajiado":{w:"Joto na Kavu kidogo. 26°C", crop:"Nyanya, Kitunguu, Mbuzi", tip:"Nyanya na kitunguu kwa umwagiliaji.", plant:"SASA PANDA: Nyanya, Kitunguu, Pilipili kwa umwagiliaji - utauza Nairobi!"},
+  "Kericho":{w:"Baridi, Mvua nyingi. 18°C", crop:"Chai, Mahindi, Maziwa", tip:"Chai ni mfalme Kericho!", plant:"SASA PANDA: Chai, Mahindi, Viazi."},
+  "Bomet":{w:"Baridi, Mvua nyingi. 18°C", crop:"Chai, Mahindi, Viazi", tip:"Chai na viazi ni bora Bomet.", plant:"SASA PANDA: Chai, Viazi, Mahindi."},
+  "Kakamega":{w:"Joto wastani, Mvua nyingi. 23°C", crop:"Miwani, Mahindi, Ndizi, Miwa", tip:"Mahindi na ndizi ni bora Kakamega.", plant:"SASA PANDA: Mahindi, Ndizi, Maharage, Miwa."},
+  "Vihiga":{w:"Joto wastani, Mvua nyingi. 22°C", crop:"Mahindi, Ndizi, Chai", tip:"Mahindi na ndizi ni bora Vihiga.", plant:"SASA PANDA: Mahindi, Ndizi, Maharage."},
+  "Bungoma":{w:"Joto wastani, Mvua nyingi. 23°C", crop:"Miwa, Mahindi, Ndizi", tip:"Miwa ni bora Bungoma.", plant:"SASA PANDA: Miwa, Mahindi, Ndizi."},
+  "Busia":{w:"Joto, Mvua nyingi. 25°C", crop:"Mihogo, Mahindi, Samaki, Ndizi", tip:"Mihogo na samaki ni bora Busia.", plant:"SASA PANDA: Mihogo, Mahindi, Ndizi."},
+  "Siaya":{w:"Joto, Mvua nyingi. 24°C", crop:"Mahindi, Mihogo, Samaki", tip:"Mahindi na samaki ni bora Siaya.", plant:"SASA PANDA: Mahindi, Mihogo, Kunde."},
+  "Kisumu":{w:"Joto, Mvua nyingi. 25°C", crop:"Mchele, Mahindi, Samaki, Ndizi", tip:"Mchele wa Ahero ni bora!", plant:"SASA PANDA: Mchele, Mahindi, Ndizi, Sukuma."},
+  "Homa Bay":{w:"Joto, Mvua wastani. 25°C", crop:"Mahindi, Mtama, Samaki, Mihogo", tip:"Mahindi na samaki ni bora Homa Bay.", plant:"SASA PANDA: Mahindi, Mtama, Mihogo."},
+  "Migori":{w:"Joto, Mvua nyingi. 24°C", crop:"Mahindi, Ndizi, Miwa, Samaki", tip:"Mahindi na ndizi ni bora Migori.", plant:"SASA PANDA: Mahindi, Ndizi, Miwa."},
+  "Kisii":{w:"Baridi kidogo, Mvua nyingi. 21°C", crop:"Ndizi, Chai, Mahindi, Avocado", tip:"Ndizi za Kisii ni maarufu!", plant:"SASA PANDA: Ndizi, Chai, Avocado, Mahindi."},
+  "Nyamira":{w:"Baridi kidogo, Mvua nyingi. 20°C", crop:"Chai, Ndizi, Mahindi", tip:"Chai na ndizi ni bora Nyamira.", plant:"SASA PANDA: Chai, Ndizi, Mahindi."},
+  "Nairobi":{w:"Baridi kidogo, Mvua wastani. 20°C", crop:"Mboga, Nyanya, Cabbage, Sukuma", tip:"Nairobi ni soko!", plant:"SASA PANDA: Sukuma (siku 21!), Spinach, Nyanya, Cabbage, Pilipili - utauza leo leo sokoni!"}
+};
 function checkWeather(){
   var c = document.getElementById('county').value;
-  document.getElementById('weatherResult').innerText = 'Hali ya hewa ' + c + ': Mvua kidogo inatarajiwa wiki hii. Wakati mzuri wa kupanda! 🌧️';
+  var d = countyData[c];
+  var box = document.getElementById('weatherResult');
+  box.style.display = 'block';
+  box.innerHTML = '<b>📍 ' + c + '</b><br>🌦️ <b>Hali ya Hewa:</b> ' + d.w + '<br>🌾 <b>Mazao Bora Hapa:</b> ' + d.crop + '<br>💡 <b>Ushauri:</b> ' + d.tip;
+}
+function whatToPlant(){
+  var c = document.getElementById('county').value;
+  var d = countyData[c];
+  var box = document.getElementById('plantResult');
+  box.style.display = 'block';
+  box.innerHTML = '<b>📍 ' + c + ' - NOVEMBA 2026 - Mvua Mfupi</b><br><br>🌱 <b>' + d.plant + '</b><br><br>⏰ <b>Haraka:</b> Panda SASA mvua ikiwa. Kama huna mvua, tumia maji kidogo asubuhi na jioni.<br>💰 <b>Pesa Haraka:</b> Mchicha na Sukuma zinakomaa siku 21 tu - utauza kabla ya Krismasi!';
 }
 function checkPest(){
   var s = document.getElementById('symptom').value;
