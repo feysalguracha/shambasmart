@@ -18,15 +18,79 @@ button { background: #2e7d32; color: white; border: none; font-weight: bold; cur
 .soko-item { background:white; padding:15px; border-radius:10px; margin:10px 0; border:1px solid #c8e6c9; }
 .weather-box { background:#e3f2fd; padding:15px; border-radius:10px; margin-top:10px; border-left:5px solid #1976d2; }
 .plant-box { background:#fff3e0; padding:15px; border-radius:10px; margin-top:10px; border-left:5px solid #ff9800; }
+.farmer-item { background:#f1f8e9; padding:12px; border-radius:10px; margin:8px 0; border:1px solid #c5e1a5; }
 </style>
 </head>
 <body>
 <header>
 <h1>🌱 ShambaSmart</h1>
 <p>Shamba Yako, Akili Yako - Smart Farming Kenya</p>
-<p>Karibu Mkulima! Jua hali ya hewa, nini kupanda, na mshauri wa mimea.</p>
+<p>Karibu Mkulima! Jisajili, jua hali ya hewa, nini kupanda, na mshauri wa mimea.</p>
 </header>
 <div class="container">
+
+<div class="card" style="background:#e8f5e9; border:3px solid #2e7d32;">
+<h2>👨🏾‍🌾 JISAJILI KAMA MKULIMA - BURE!</h2>
+<p>Jisajili ili ShambaSmart ikujue na ikusaidie na ushauri wa county yako. BURE kabisa!</p>
+<div id="registerForm">
+<input id="regName" placeholder="Jina lako kamili - Mfano: Juma Otieno">
+<input id="regPhone" placeholder="Namba ya WhatsApp - Mfano: 0712345678">
+<select id="regCounty">
+<option value="Mombasa">1. Mombasa</option>
+<option value="Kwale">2. Kwale</option>
+<option value="Kilifi">3. Kilifi</option>
+<option value="Tana River">4. Tana River</option>
+<option value="Lamu">5. Lamu</option>
+<option value="Taita-Taveta">6. Taita-Taveta</option>
+<option value="Garissa">7. Garissa</option>
+<option value="Wajir">8. Wajir</option>
+<option value="Mandera">9. Mandera</option>
+<option value="Marsabit">10. Marsabit</option>
+<option value="Isiolo">11. Isiolo</option>
+<option value="Meru">12. Meru</option>
+<option value="Tharaka-Nithi">13. Tharaka-Nithi</option>
+<option value="Embu">14. Embu</option>
+<option value="Kitui">15. Kitui</option>
+<option value="Machakos">16. Machakos</option>
+<option value="Makueni">17. Makueni</option>
+<option value="Nyandarua">18. Nyandarua</option>
+<option value="Nyeri">19. Nyeri</option>
+<option value="Kirinyaga">20. Kirinyaga</option>
+<option value="Murang'a">21. Murang'a</option>
+<option value="Kiambu">22. Kiambu</option>
+<option value="Turkana">23. Turkana</option>
+<option value="West Pokot">24. West Pokot</option>
+<option value="Samburu">25. Samburu</option>
+<option value="Trans Nzoia">26. Trans Nzoia</option>
+<option value="Uasin Gishu">27. Uasin Gishu</option>
+<option value="Elgeyo-Marakwet">28. Elgeyo-Marakwet</option>
+<option value="Nandi">29. Nandi</option>
+<option value="Baringo">30. Baringo</option>
+<option value="Laikipia">31. Laikipia</option>
+<option value="Nakuru">32. Nakuru</option>
+<option value="Narok">33. Narok</option>
+<option value="Kajiado">34. Kajiado</option>
+<option value="Kericho">35. Kericho</option>
+<option value="Bomet">36. Bomet</option>
+<option value="Kakamega">37. Kakamega</option>
+<option value="Vihiga">38. Vihiga</option>
+<option value="Bungoma">39. Bungoma</option>
+<option value="Busia">40. Busia</option>
+<option value="Siaya">41. Siaya</option>
+<option value="Kisumu">42. Kisumu</option>
+<option value="Homa Bay">43. Homa Bay</option>
+<option value="Migori">44. Migori</option>
+<option value="Kisii">45. Kisii</option>
+<option value="Nyamira">46. Nyamira</option>
+<option value="Nairobi">47. Nairobi</option>
+</select>
+<input id="regCrop" placeholder="Unalima nini? - Mfano: Mahindi, Mtama, Nyanya">
+<button onclick="registerFarmer()">✅ JISAJILI SASA - BURE</button>
+</div>
+<div id="registerSuccess" style="display:none; background:white; padding:15px; border-radius:10px; text-align:center;"></div>
+<p style="text-align:center; margin-top:10px; font-weight:bold; color:#2e7d32;" id="farmerCount"></p>
+</div>
+
 <div class="card">
 <h2>1. 🌦️ Hali ya Hewa - 47 Counties ZOTE!</h2>
 <select id="county">
@@ -123,7 +187,14 @@ button { background: #2e7d32; color: white; border: none; font-weight: bold; cur
 <div id="sokoList"></div>
 <p style="font-size:13px; text-align:center;">ShambaSmart inachukua 2% tu baada ya kuuza. Mkulima anabaki na 98%!</p>
 </div>
-<p style="text-align:center; padding:20px;">Imetengenezwa na @Feii 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
+
+<div class="card">
+<h2>👥 Wakulima Waliojiandikisha ShambaSmart</h2>
+<p style="font-size:13px;">Hawa ndio wakulima halisi waliojiandikisha. Ukiwa hapa, Feysal anakujua!</p>
+<div id="farmerList"></div>
+</div>
+
+<p style="text-align:center; padding:20px;">Imetengenezwa na @Feysal 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
 </div>
 <script>
 var countyData = {
@@ -193,6 +264,49 @@ function checkPest(){
   var s = document.getElementById('symptom').value;
   document.getElementById('pestResult').innerText = 'Mshauri: Kwa dalili "' + s + '" - Tumia dawa ya copper, na ondoa majani yaliyoathirika. Kama ni kubwa, nenda Agrovet.';
 }
+function getFarmers(){
+  var saved = localStorage.getItem('shambaFarmersV1');
+  if(saved){ return JSON.parse(saved); }
+  return [];
+}
+function showFarmers(){
+  var list = getFarmers();
+  document.getElementById('farmerCount').innerText = '✅ Wakulima Waliojiandikisha: ' + list.length + ' - Jiunge nao!';
+  if(list.length===0){
+    document.getElementById('farmerList').innerHTML = '<p style="text-align:center; padding:15px; background:#fff; border-radius:10px;">Bado hakuna mkulima aliyejiandikisha. Kuwa wa KWANZA! 👆</p>';
+    return;
+  }
+  var html = "";
+  for(var i=0; i<list.length; i++){
+    var f = list[i];
+    var waLink = "https://wa.me/" + f.phone + "?text=Karibu%20ShambaSmart%20" + encodeURIComponent(f.name);
+    html += '<div class="farmer-item"><b>👨🏾‍🌾 ' + f.name + '</b> - ' + f.county + ' | Analima: ' + f.crop + '<br><a href="' + waLink + '" style="background:#25D366; color:white; padding:6px 12px; display:inline-block; border-radius:6px; margin-top:5px; text-decoration:none; font-size:13px; font-weight:bold;">💬 Chat</a></div>';
+  }
+  document.getElementById('farmerList').innerHTML = html;
+}
+function registerFarmer(){
+  var name=document.getElementById('regName').value;
+  var phone=document.getElementById('regPhone').value;
+  var county=document.getElementById('regCounty').value;
+  var crop=document.getElementById('regCrop').value;
+  if(!name||!phone||!crop){ alert('Tafadhali jaza Jina, Namba ya Simu, na Unalima Nini!'); return; }
+  phone = phone.trim().replace(/\s/g,'');
+  if(phone.startsWith('0')){ phone = '254' + phone.substring(1); }
+  if(phone.startsWith('+')){ phone = phone.substring(1); }
+  var list = getFarmers();
+  // Check if already registered
+  for(var i=0; i<list.length; i++){ if(list[i].phone===phone){ alert('Umesajiliwa tayari ' + name + '! Karibu tena!'); return; } }
+  list.unshift({name:name, phone:phone, county:county, crop:crop});
+  localStorage.setItem('shambaFarmersV1', JSON.stringify(list));
+  document.getElementById('registerForm').style.display='none';
+  var success = document.getElementById('registerSuccess');
+  success.style.display='block';
+  success.innerHTML = '<h2 style="color:#2e7d32;">🎉 Karibu ' + name + '!</h2><p>Umesajiliwa kama <b>Mkulima #' + list.length + '</b> wa ShambaSmart!</p><p>County: <b>' + county + '</b> | Unalima: <b>' + crop + '</b></p><p style="margin-top:10px;">Sasa unaweza kuangalia Hali ya Hewa na Nini Kupanda kwa ' + county + ' hapo chini! 👇</p><a href="https://wa.me/254725731494?text=Nimejiandikisha%20ShambaSmart!%20Mimi%20ni%20' + encodeURIComponent(name) + '%20kutoka%20' + encodeURIComponent(county) + '%20nalima%20' + encodeURIComponent(crop) + '" style="background:#25D366; color:white; padding:12px; display:block; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:10px;">💬 NIAMBIE FEYSAL NIMESAJILIWA</a>';
+  // Auto set county dropdowns to their county
+  document.getElementById('county').value = county;
+  showFarmers();
+  alert('Hongera ' + name + '! Umesajiliwa! Sasa chagua Hali ya Hewa ya ' + county + '!');
+}
 function getSoko(){
   var saved = localStorage.getItem('sokoListingsV2');
   if(saved){ return JSON.parse(saved); }
@@ -232,6 +346,7 @@ function postSoko(){
   alert('Hongera '+name+'! Mazao yako '+crop+' yamehifadhiwa Sokoni FOREVER!');
 }
 showSoko();
+showFarmers();
 </script>
 </body>
 </html>
