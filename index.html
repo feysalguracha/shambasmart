@@ -3,82 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShambaSmart - Smart Farming Kenya</title>
+<title>ShambaSmart - Crop Scan</title>
 <style>
-  body{font-family:Arial;background:#f0f7e6;margin:0;padding:0}
-  .header{background:#2e7d32;color:white;padding:25px 15px;text-align:center}
-  .container{max-width:600px;margin:auto;padding:15px}
-  .card{background:white;border-radius:15px;padding:20px;margin:15px 0;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
-  .btn{display:block;text-align:center;padding:15px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:18px;margin:10px 0}
-  .btn-green{background:#2e7d32;color:white} .btn-orange{background:#ff9800;color:white} .btn-blue{background:#1976d2;color:white}
-  input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
-  button{width:100%;padding:13px;border:none;border-radius:10px;background:#2e7d32;color:white;font-weight:bold;font-size:16px;cursor:pointer}
+  body{font-family:Arial;background:#f0f7e6;margin:0;padding:15px}
+  .box{background:white;border-radius:15px;padding:20px;max-width:500px;margin:auto;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+  h1{color:#2e7d32;text-align:center} h2{color:#2e7d32}
+  select,input,button{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
+  button{background:#2e7d32;color:white;border:none;font-weight:bold;cursor:pointer}
+  .pay-btn{background:#000} .timer{background:#fff3cd;padding:12px;border-radius:10px;text-align:center;font-weight:bold;font-size:18px;margin:10px 0}
+  .result-good{background:#d4edda;padding:15px;border-radius:10px} .result-bad{background:#f8d7da;padding:15px;border-radius:10px}
+  #preview{width:100%;border-radius:10px;margin-top:10px;display:none} .hidden{display:none}
+  .role-btn{background:white;color:#2e7d32;border:2px solid #2e7d32} .role-btn.active{background:#2e7d32;color:white}
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>🌱 ShambaSmart</h1>
-  <p>Smart Farming Kenya - From Shamba To Market</p>
-</div>
-<div class="container">
-  <div class="card" style="border:3px solid #2e7d32;">
-    <h2>🔍 Scan Your Crop - KES 100</h2>
-    <p>Take photo. Know if <b>GOOD ✅ or BAD ❌</b> + Treatment.<br><b>100 KES = 12 Hours</b> - From moment you pay.</p>
-    <a href="scan.html" class="btn btn-green">🔍 SCAN NOW - PAY 100 KES</a>
-    <p style="text-align:center;">Pay to: <b>0725731494</b></p>
+<div class="box">
+  <h1>🌱 ShambaSmart Scan</h1>
+  <p style="text-align:center;">Scan Any Crop - GOOD or BAD + Treatment<br><b>100 KES = 12 Hours</b> - From Moment You Pay</p>
+  <h2>1. Who Are You?</h2>
+  <button class="role-btn" id="btnSupplier" onclick="setRole('supplier')">🚜 Supplier - I Grow In Shamba</button>
+  <button class="role-btn" id="btnSeller" onclick="setRole('seller')">🛒 Seller - I Buy & Sell In Market</button>
+  <p id="roleMsg"></p>
+  <div id="sellerBlock" class="hidden">
+    <div style="background:#ffe0e0;padding:15px;border-radius:10px;"><b>Sorry Seller!</b><br>Scanning is for Suppliers only.<br>Go to Soko Direct to buy crops.</div>
   </div>
-  <div class="card">
-    <h2>🛒 Soko Direct</h2>
-    <p><b>Suppliers</b> post crops. <b>Sellers</b> buy direct.</p>
-    <div id="cropList"></div>
-    <h3>Add Crop (Supplier Only)</h3>
-    <input type="text" id="cropName" placeholder="Crop e.g. Tomatoes">
-    <input type="text" id="cropPrice" placeholder="Price e.g. 80 per Kg">
-    <input type="text" id="cropLocation" placeholder="Location e.g. Kiambu">
-    <button onclick="addCrop()">Post Crop To Soko</button>
+  <div id="supplierArea" class="hidden">
+    <div id="payWall">
+      <h2>2. Pay To Unlock Scan</h2>
+      <div style="background:#fff3cd;padding:15px;border-radius:10px;">
+        <b>🔒 Scan Locked</b><br>Pay <b>KES 100</b> to unlock <b>12 Hours</b><br>Example: Pay 8 PM = Scan until 8 AM.<br><br>
+        <b>How To Pay:</b><br>1. M-Pesa -> Send Money<br>2. Send <b>KES 100</b> to <b>0725731494</b><br>3. Get M-Pesa Code e.g. QK123ABC<br>4. Enter code below
+      </div>
+      <input type="text" id="mpesaCode" placeholder="Enter M-Pesa Code e.g. QK7X123ABC">
+      <button class="pay-btn" onclick="verifyPayment()">✅ I Have Paid - Unlock Scan</button>
+    </div>
+    <div id="scanArea" class="hidden">
+      <div class="timer" id="timer">⏰ Time Left: 12h 00m</div>
+      <p style="text-align:center;color:green;">✅ Paid! Scan Unlocked</p>
+      <h2>3. Select Your Crop - ALL CROPS</h2>
+      <select id="cropSelect">
+        <option value="">-- Select Crop --</option>
+        <optgroup label="Food Crops"><option>Maize</option><option>Beans</option><option>Rice</option><option>Wheat</option><option>Potatoes</option><option>Sweet Potatoes</option><option>Cassava</option><option>Yams</option></optgroup>
+        <optgroup label="Vegetables"><option>Sukuma Wiki</option><option>Cabbage</option><option>Tomatoes</option><option>Onions</option><option>Carrots</option><option>Spinach</option><option>Kales</option><option>Lettuce</option><option>Broccoli</option><option>Eggplant</option><option>Okra</option><option>Capsicum (Hoho)</option><option>Cucumber</option><option>French Beans</option><option>Peas</option></optgroup>
+        <optgroup label="Fruits"><option>Bananas</option><option>Mangoes</option><option>Oranges</option><option>Avocados</option><option>Pawpaw</option><option>Watermelon</option><option>Pineapple</option><option>Passion Fruit</option><option>Lemons</option><option>Strawberries</option></optgroup>
+        <optgroup label="Cash Crops"><option>Tea</option><option>Coffee</option><option>Sugarcane</option><option>Cotton</option><option>Sunflower</option></optgroup>
+      </select>
+      <h2>4. Upload Photo of Crop / Leaf</h2>
+      <input type="file" id="cropPhoto" accept="image/*" onchange="previewPhoto(event)">
+      <img id="preview">
+      <button onclick="scanCrop()">🔍 SCAN NOW</button>
+      <div id="result"></div>
+    </div>
   </div>
-  <div class="card">
-    <h2>📝 Register</h2>
-    <input type="text" id="regName" placeholder="Your Name">
-    <input type="text" id="regPhone" placeholder="Phone e.g. 0712345678">
-    <select id="regRole"><option value="supplier">🚜 I am SUPPLIER - I grow in Shamba</option><option value="seller">🛒 I am SELLER - I buy & sell</option></select>
-    <button onclick="registerUser()">Register Free</button>
-    <p id="regMsg"></p>
-  </div>
-  <p style="text-align:center;font-size:11px;color:#ccc;"><a href="admin.html" style="color:#ccc;">Admin</a> | ShambaSmart © 2026</p>
+  <br><a href="index.html">← Back to Home</a>
 </div>
 <script>
-function registerUser(){
-  let name=document.getElementById("regName").value;
-  let phone=document.getElementById("regPhone").value;
-  let role=document.getElementById("regRole").value;
-  if(!name||!phone){alert("Enter name and phone");return;}
-  localStorage.setItem("shamba_user",JSON.stringify({name,phone,role}));
-  localStorage.setItem("shamba_role",role);
-  document.getElementById("regMsg").innerHTML="✅ Welcome "+name+"! You are <b>"+role.toUpperCase()+"</b>";
-}
-function addCrop(){
-  let name=document.getElementById("cropName").value;
-  let price=document.getElementById("cropPrice").value;
-  let loc=document.getElementById("cropLocation").value;
-  if(!name||!price){alert("Enter crop and price");return;}
-  let crops=JSON.parse(localStorage.getItem("soko_crops")||"[]");
-  let user=JSON.parse(localStorage.getItem("shamba_user")||"{}");
-  crops.unshift({name,price,loc:loc||"Kenya",seller:user.name||"Supplier",phone:user.phone||"0725731494"});
-  localStorage.setItem("soko_crops",JSON.stringify(crops));
-  loadCrops();
-}
-function loadCrops(){
-  let crops=JSON.parse(localStorage.getItem("soko_crops")||"[]");
-  if(crops.length===0){
-    crops=[{name:"Tomatoes",price:"80 per Kg",loc:"Kiambu",seller:"Wanjiru",phone:"0712345678"},{name:"Maize",price:"60 per Kg",loc:"Nakuru",seller:"Kamau",phone:"0722345678"}];
-    localStorage.setItem("soko_crops",JSON.stringify(crops));
+let treatmentBook={
+  "Maize":{disease:"Maize Leaf Blight / Fall Armyworm",treatment:"1. Spray insecticide for armyworm. 2. Apply CAN fertilizer. 3. Remove affected leaves. 4. Weed shamba."},
+  "Beans":{disease:"Bean Rust / Aphids",treatment:"1. Spray Neem oil. 2. Remove yellow leaves. 3. Apply DAP. 4. Don't over-water."},
+  "Tomatoes":{disease:"Late Blight / Tuta Absoluta",treatment:"1. Spray Copper fungicide KES 350. 2. Remove infected fruits. 3. Water at roots, not leaves."},
+  "Sukuma Wiki":{disease:"Diamondback Moth / Aphids",treatment:"1. Spray Neem oil. 2. Pick caterpillars by hand. 3. Apply manure."},
+  "Cabbage":{disease:"Black Rot / Caterpillars",treatment:"1. Remove rotten outer leaves. 2. Spray insecticide. 3. Rotate crops next season."},
+  "Potatoes":{disease:"Late Blight",treatment:"1. Spray Ridomil. 2. Earth up soil around stem. 3. Harvest early if severe."},
+  "Onions":{disease:"Purple Blotch / Thrips",treatment:"1. Spray fungicide. 2. Reduce watering. 3. Dry onions well after harvest."},
+  "Bananas":{disease:"Banana Bacterial Wilt",treatment:"1. Cut and bury infected plant. 2. Disinfect tools. 3. Don't move suckers from sick plant."},
+  "Coffee":{disease:"Coffee Leaf Rust",treatment:"1. Spray Copper fungicide. 2. Prune for air. 3. Apply CAN."},
+  "Tea":{disease:"Tea Blister Blight",treatment:"1. Pluck affected leaves. 2. Spray fungicide. 3. Improve drainage."},
+  "default":{disease:"General Disease / Nutrient Deficiency",treatment:"1. Remove affected leaves. 2. Spray Neem oil + Fungicide. 3. Apply balanced fertilizer (NPK). 4. Water in morning only. 5. Visit agrovet with photo."}
+};
+function setRole(role){
+  document.getElementById("btnSupplier").classList.remove("active");
+  document.getElementById("btnSeller").classList.remove("active");
+  if(role==="supplier"){
+    document.getElementById("btnSupplier").classList.add("active");
+    document.getElementById("sellerBlock").classList.add("hidden");
+    document.getElementById("supplierArea").classList.remove("hidden");
+    document.getElementById("roleMsg").innerHTML="You are <b>Supplier</b> - You can scan.";
+    checkPayment();
+  } else {
+    document.getElementById("btnSeller").classList.add("active");
+    document.getElementById("supplierArea").classList.add("hidden");
+    document.getElementById("sellerBlock").classList.remove("hidden");
+    document.getElementById("roleMsg").innerHTML="You are <b>Seller</b> - Go to Soko Direct.";
   }
-  let html="";
-  crops.forEach(c=>{html+=`<div style="border:1px solid #ddd;padding:12px;border-radius:10px;margin:8px 0;"><b>🌾 ${c.name}</b> - KES ${c.price}<br>📍 ${c.loc} | 👤 ${c.seller}<br><a href="tel:${c.phone}" style="background:#2e7d32;color:white;padding:8px 12px;border-radius:8px;display:inline-block;margin-top:5px;text-decoration:none;">Call Supplier</a></div>`;});
-  document.getElementById("cropList").innerHTML=html;
+  localStorage.setItem("shamba_role",role);
 }
-loadCrops();
+function verifyPayment(){
+  let code=document.getElementById("mpesaCode").value.trim().toUpperCase();
+  if(code.length<5){alert("Enter correct M-Pesa Code. Example QK123ABC");return;}
+  let used=JSON.parse(localStorage.getItem("used_codes")||"[]");
+  if(used.includes(code)){alert("This M-Pesa Code already used! Use a new payment.");return;}
+  used.push(code); localStorage.setItem("used_codes",JSON.stringify(used));
+  let now=new Date().getTime();
+  let expiry=now+(12*60*60*1000);
+  localStorage.setItem("scan_expiry",expiry);
+  localStorage.setItem("scan_paid","yes");
+  let payments=JSON.parse(localStorage.getItem("admin_payments")||"[]");
+  let user=JSON.parse(localStorage.getItem("shamba_user")||"{}");
+  payments.unshift({phone:user.phone||"Unknown",name:user.name||"Farmer from Scan",crop:"Scan Payment",code:code,time:new Date().toLocaleString(),expiry:expiry,expiryStr:new Date(expiry).toLocaleString()});
+  localStorage.setItem("admin_payments",JSON.stringify(payments));
+  alert("Payment received! You have 12 hours scanning. Starts now!");
+  checkPayment();
+}
+function checkPayment(){
+  let expiry=localStorage.getItem("scan_expiry");
+  if(!expiry) return;
+  let now=new Date().getTime();
+  if(now<parseInt(expiry)){
+    document.getElementById("payWall").classList.add("hidden");
+    document.getElementById("scanArea").classList.remove("hidden");
+    startTimer();
+  } else {
+    document.getElementById("payWall").classList.remove("hidden");
+    document.getElementById("scanArea").classList.add("hidden");
+    alert("Your 12 hours finished! Pay 100 KES again to 0725731494.");
+  }
+}
+function startTimer(){
+  setInterval(()=>{
+    let expiry=parseInt(localStorage.getItem("scan_expiry"));
+    let now=new Date().getTime();
+    let diff=expiry-now;
+    if(diff<=0){location.reload();return;}
+    let h=Math.floor(diff/(1000*60*60));
+    let m=Math.floor((diff%(1000*60*60))/(1000*60));
+    let s=Math.floor((diff%(1000*60))/1000);
+    document.getElementById("timer").innerHTML=`⏰ Time Left: ${h}h ${m}m ${s}s - Pay 100 to 0725731494 to extend`;
+  },1000);
+}
+function previewPhoto(e){
+  let file=e.target.files[0];
+  let reader=new FileReader();
+  reader.onload=function(){
+    let img=document.getElementById("preview");
+    img.src=reader.result; img.style.display="block";
+  };
+  reader.readAsDataURL(file);
+}
+function scanCrop(){
+  let crop=document.getElementById("cropSelect").value;
+  let photo=document.getElementById("cropPhoto").files[0];
+  if(!crop){alert("Please select crop first!");return;}
+  if(!photo){alert("Please upload photo first!");return;}
+  let img=document.getElementById("preview");
+  let canvas=document.createElement("canvas");
+  let ctx=canvas.getContext("2d");
+  canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
+  ctx.drawImage(img,0,0);
+  let data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  let green=0,yellowBrown=0;
+  for(let i=0;i<data.length;i+=100){
+    let r=data[i],g=data[i+1],b=data[i+2];
+    if(g>r && g>b && g>80) green++;
+    else if(r>100 && g>80 && b<100) yellowBrown++;
+  }
+  let total=green+yellowBrown||1;
+  let health=Math.round((green/total)*100);
+  if(health>100) health=92;
+  let info=treatmentBook[crop]||treatmentBook["default"];
+  let resultDiv=document.getElementById("result");
+  let isGood=health>65;
+  if(isGood){
+    resultDiv.innerHTML=`<div class="result-good"><h3>✅ GOOD - ${crop} is Healthy!</h3><p>Health Score: ${health}%</p><p>Your ${crop} looks good. Keep watering, weeding and applying manure.</p></div>`;
+  } else {
+    resultDiv.innerHTML=`<div class="result-bad"><h3>❌ BAD - ${crop} Needs Treatment!</h3><p>Health Score: ${health}%</p><p><b>Possible Problem:</b> ${info.disease}</p><p><b>Treatment:</b><br>${info.treatment}</p><p><b>Action:</b> Go to agrovet with this photo.</p></div>`;
+  }
+  let scans=JSON.parse(localStorage.getItem("admin_scans")||"[]");
+  scans.unshift({crop:crop,result:isGood?"GOOD ✅":"BAD ❌",time:new Date().toLocaleString()});
+  localStorage.setItem("admin_scans",JSON.stringify(scans));
+  resultDiv.scrollIntoView({behavior:"smooth"});
+}
+window.onload=function(){
+  let saved=localStorage.getItem("shamba_role");
+  if(saved) setRole(saved);
+}
 </script>
 </body>
 </html>
