@@ -3,350 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShambaSmart - Smart Farming Kenya</title>
+<title>ShambaSmart - Crop Scan</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-body { background: #f0f7ee; color: #111; }
-header { background: #2e7d32; color: white; padding: 25px 15px; text-align: center; }
-header h1 { font-size: 32px; color: white; }
-header p { margin-top: 5px; color: white; }
-.container { max-width: 900px; margin: 0 auto; padding: 15px; }
-.card { background: white; border-radius: 12px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-.card h2 { color: #1b5e20; margin-bottom: 10px; font-size: 22px; }
-select, button, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
-button { background: #2e7d32; color: white; border: none; font-weight: bold; cursor: pointer; }
-.soko-item { background:white; padding:15px; border-radius:10px; margin:10px 0; border:1px solid #c8e6c9; }
-.weather-box { background:#e3f2fd; padding:15px; border-radius:10px; margin-top:10px; border-left:5px solid #1976d2; }
-.plant-box { background:#fff3e0; padding:15px; border-radius:10px; margin-top:10px; border-left:5px solid #ff9800; }
-.farmer-item { background:#f1f8e9; padding:12px; border-radius:10px; margin:8px 0; border:1px solid #c5e1a5; }
+  body{font-family:Arial;background:#f0f7e6;margin:0;padding:15px}
+  .box{background:white;border-radius:15px;padding:20px;max-width:500px;margin:auto;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+  h1{color:#2e7d32;text-align:center} h2{color:#2e7d32}
+  select,input,button{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
+  button{background:#2e7d32;color:white;border:none;font-weight:bold;cursor:pointer}
+  .pay-btn{background:#000} .timer{background:#fff3cd;padding:12px;border-radius:10px;text-align:center;font-weight:bold;font-size:18px;margin:10px 0}
+  .result-good{background:#d4edda;padding:15px;border-radius:10px} .result-bad{background:#f8d7da;padding:15px;border-radius:10px}
+  #preview{width:100%;border-radius:10px;margin-top:10px;display:none} .hidden{display:none}
+  .role-btn{background:white;color:#2e7d32;border:2px solid #2e7d32} .role-btn.active{background:#2e7d32;color:white}
 </style>
 </head>
 <body>
-<header>
-<h1>🌱 ShambaSmart</h1>
-<p>Shamba Yako, Akili Yako - Smart Farming Kenya</p>
-<p>Karibu Mkulima! Jisajili, jua hali ya hewa, nini kupanda, na mshauri wa mimea.</p>
-</header>
-<div class="container">
+<div class="box">
+  <h1>🌱 ShambaSmart Scan</h1>
+  <p style="text-align:center;">Scan Any Crop - GOOD or BAD + Treatment<br><b>100 KES = 12 Hours</b> - From Moment You Pay</p>
 
-<div class="card" style="background:#e8f5e9; border:3px solid #2e7d32;">
-<h2>👨🏾‍🌾 JISAJILI KAMA MKULIMA - BURE!</h2>
-<p>Jisajili ili ShambaSmart ikujue na ikusaidie na ushauri wa county yako. BURE kabisa!</p>
-<div id="registerForm">
-<input id="regName" placeholder="Jina lako kamili - Mfano: Juma Otieno">
-<input id="regPhone" placeholder="Namba ya WhatsApp - Mfano: 0712345678">
-<select id="regCounty">
-<option value="Mombasa">1. Mombasa</option>
-<option value="Kwale">2. Kwale</option>
-<option value="Kilifi">3. Kilifi</option>
-<option value="Tana River">4. Tana River</option>
-<option value="Lamu">5. Lamu</option>
-<option value="Taita-Taveta">6. Taita-Taveta</option>
-<option value="Garissa">7. Garissa</option>
-<option value="Wajir">8. Wajir</option>
-<option value="Mandera">9. Mandera</option>
-<option value="Marsabit">10. Marsabit</option>
-<option value="Isiolo">11. Isiolo</option>
-<option value="Meru">12. Meru</option>
-<option value="Tharaka-Nithi">13. Tharaka-Nithi</option>
-<option value="Embu">14. Embu</option>
-<option value="Kitui">15. Kitui</option>
-<option value="Machakos">16. Machakos</option>
-<option value="Makueni">17. Makueni</option>
-<option value="Nyandarua">18. Nyandarua</option>
-<option value="Nyeri">19. Nyeri</option>
-<option value="Kirinyaga">20. Kirinyaga</option>
-<option value="Murang'a">21. Murang'a</option>
-<option value="Kiambu">22. Kiambu</option>
-<option value="Turkana">23. Turkana</option>
-<option value="West Pokot">24. West Pokot</option>
-<option value="Samburu">25. Samburu</option>
-<option value="Trans Nzoia">26. Trans Nzoia</option>
-<option value="Uasin Gishu">27. Uasin Gishu</option>
-<option value="Elgeyo-Marakwet">28. Elgeyo-Marakwet</option>
-<option value="Nandi">29. Nandi</option>
-<option value="Baringo">30. Baringo</option>
-<option value="Laikipia">31. Laikipia</option>
-<option value="Nakuru">32. Nakuru</option>
-<option value="Narok">33. Narok</option>
-<option value="Kajiado">34. Kajiado</option>
-<option value="Kericho">35. Kericho</option>
-<option value="Bomet">36. Bomet</option>
-<option value="Kakamega">37. Kakamega</option>
-<option value="Vihiga">38. Vihiga</option>
-<option value="Bungoma">39. Bungoma</option>
-<option value="Busia">40. Busia</option>
-<option value="Siaya">41. Siaya</option>
-<option value="Kisumu">42. Kisumu</option>
-<option value="Homa Bay">43. Homa Bay</option>
-<option value="Migori">44. Migori</option>
-<option value="Kisii">45. Kisii</option>
-<option value="Nyamira">46. Nyamira</option>
-<option value="Nairobi">47. Nairobi</option>
-</select>
-<input id="regCrop" placeholder="Unalima nini? - Mfano: Mahindi, Mtama, Nyanya">
-<button onclick="registerFarmer()">✅ JISAJILI SASA - BURE</button>
-</div>
-<div id="registerSuccess" style="display:none; background:white; padding:15px; border-radius:10px; text-align:center;"></div>
-<p style="text-align:center; margin-top:10px; font-weight:bold; color:#2e7d32;" id="farmerCount"></p>
+  <h2>1. Who Are You?</h2>
+  <button class="role-btn" id="btnSupplier" onclick="setRole('supplier')">🚜 Supplier - I Grow In Shamba</button>
+  <button class="role-btn" id="btnSeller" onclick="setRole('seller')">🛒 Seller - I Buy & Sell In Market</button>
+  <p id="roleMsg"></p>
+
+  <div id="sellerBlock" class="hidden">
+    <div style="background:#ffe0e0;padding:15px;border-radius:10px;"><b>Sorry Seller!</b><br>Scanning is for Suppliers only.<br>Go to Soko Direct to buy crops.</div>
+    <br><a href="index.html">← Back to Home</a>
+  </div>
+
+  <div id="supplierArea" class="hidden">
+    <div id="payWall">
+      <h2>2. Pay To Unlock Scan</h2>
+      <div style="background:#fff3cd;padding:15px;border-radius:10px;">
+        <b>🔒 Scan Locked</b><br>Pay <b>KES 100</b> to unlock <b>12 Hours</b><br>Example: Pay 8 PM = Scan until 8 AM.<br><br>
+        <b>How To Pay:</b><br>1. M-Pesa -> Send Money<br>2. Send <b>KES 100</b> to <b>0725731494</b><br>3. Get M-Pesa Code e.g. QK123ABC<br>4. Enter code below
+      </div>
+      <input type="text" id="mpesaCode" placeholder="Enter M-Pesa Code e.g. QK7X123ABC">
+      <button class="pay-btn" onclick="verifyPayment()">✅ I Have Paid - Unlock Scan</button>
+    </div>
+
+    <div id="scanArea" class="hidden">
+      <div class="timer" id="timer">⏰ Time Left: 12h 00m</div>
+      <p style="text-align:center;color:green;">✅ Paid! Scan Unlocked</p>
+      <h2>3. Select Your Crop - ALL CROPS</h2>
+      <select id="cropSelect">
+        <option value="">-- Select Crop --</option>
+        <optgroup label="Food Crops"><option>Maize</option><option>Beans</option><option>Rice</option><option>Wheat</option><option>Potatoes</option><option>Sweet Potatoes</option><option>Cassava</option><option>Yams</option></optgroup>
+        <optgroup label="Vegetables"><option>Sukuma Wiki</option><option>Cabbage</option><option>Tomatoes</option><option>Onions</option><option>Carrots</option><option>Spinach</option><option>Kales</option><option>Lettuce</option><option>Broccoli</option><option>Eggplant</option><option>Okra</option><option>Capsicum (Hoho)</option><option>Cucumber</option><option>French Beans</option><option>Peas</option></optgroup>
+        <optgroup label="Fruits"><option>Bananas</option><option>Mangoes</option><option>Oranges</option><option>Avocados</option><option>Pawpaw</option><option>Watermelon</option><option>Pineapple</option><option>Passion Fruit</option><option>Lemons</option><option>Strawberries</option></optgroup>
+        <optgroup label="Cash Crops"><option>Tea</option><option>Coffee</option><option>Sugarcane</option><option>Cotton</option><option>Sunflower</option></optgroup>
+      </select>
+      <h2>4. Upload Photo of Crop / Leaf</h2>
+      <input type="file" id="cropPhoto" accept="image/*" onchange="previewPhoto(event)">
+      <img id="preview">
+      <button onclick="scanCrop()">🔍 SCAN NOW</button>
+      <div id="result"></div>
+    </div>
+  </div>
+  <br><a href="index.html">← Back to Home</a>
 </div>
 
-<div class="card">
-<h2>1. 🌦️ Hali ya Hewa - 47 Counties ZOTE!</h2>
-<select id="county">
-<option value="Mombasa">1. Mombasa</option>
-<option value="Kwale">2. Kwale</option>
-<option value="Kilifi">3. Kilifi</option>
-<option value="Tana River">4. Tana River</option>
-<option value="Lamu">5. Lamu</option>
-<option value="Taita-Taveta">6. Taita-Taveta</option>
-<option value="Garissa">7. Garissa</option>
-<option value="Wajir">8. Wajir</option>
-<option value="Mandera">9. Mandera</option>
-<option value="Marsabit">10. Marsabit</option>
-<option value="Isiolo">11. Isiolo</option>
-<option value="Meru">12. Meru</option>
-<option value="Tharaka-Nithi">13. Tharaka-Nithi</option>
-<option value="Embu">14. Embu</option>
-<option value="Kitui">15. Kitui</option>
-<option value="Machakos">16. Machakos</option>
-<option value="Makueni">17. Makueni</option>
-<option value="Nyandarua">18. Nyandarua</option>
-<option value="Nyeri">19. Nyeri</option>
-<option value="Kirinyaga">20. Kirinyaga</option>
-<option value="Murang'a">21. Murang'a</option>
-<option value="Kiambu">22. Kiambu</option>
-<option value="Turkana">23. Turkana</option>
-<option value="West Pokot">24. West Pokot</option>
-<option value="Samburu">25. Samburu</option>
-<option value="Trans Nzoia">26. Trans Nzoia</option>
-<option value="Uasin Gishu">27. Uasin Gishu</option>
-<option value="Elgeyo-Marakwet">28. Elgeyo-Marakwet</option>
-<option value="Nandi">29. Nandi</option>
-<option value="Baringo">30. Baringo</option>
-<option value="Laikipia">31. Laikipia</option>
-<option value="Nakuru">32. Nakuru</option>
-<option value="Narok">33. Narok</option>
-<option value="Kajiado">34. Kajiado</option>
-<option value="Kericho">35. Kericho</option>
-<option value="Bomet">36. Bomet</option>
-<option value="Kakamega">37. Kakamega</option>
-<option value="Vihiga">38. Vihiga</option>
-<option value="Bungoma">39. Bungoma</option>
-<option value="Busia">40. Busia</option>
-<option value="Siaya">41. Siaya</option>
-<option value="Kisumu">42. Kisumu</option>
-<option value="Homa Bay">43. Homa Bay</option>
-<option value="Migori">44. Migori</option>
-<option value="Kisii">45. Kisii</option>
-<option value="Nyamira">46. Nyamira</option>
-<option value="Nairobi">47. Nairobi</option>
-</select>
-<button onclick="checkWeather()">ANGALIA HALI YA HEWA</button>
-<div id="weatherResult" class="weather-box" style="display:none;"></div>
-</div>
-
-<div class="card" style="background:#fff8e1; border:3px solid #ff9800;">
-<h2>2. 🌾 NIPANDE NINI SASA? - Novemba / Mvua Mfupi</h2>
-<p>Chagua county yako hapo juu, halafu bonyeza hapa chini. Tutakuambia nini kupanda SASA ili upate pesa!</p>
-<button onclick="whatToPlant()" style="background:#ff9800;">🌱 NIONYESHE NIPANDE NINI SASA</button>
-<div id="plantResult" class="plant-box" style="display:none;"></div>
-</div>
-
-<div class="card">
-<h2>3. 🐛 Mshauri wa Mimea - BURE</h2>
-<input id="symptom" placeholder="Mfano: majani yamekuwa njano">
-<button onclick="checkPest()">NISAIDIE MSHAURI</button>
-<p id="pestResult" style="font-weight:bold; margin-top:10px;"></p>
-</div>
-<div class="card" style="background:#fff8e1; border:3px solid #ffca28;">
-<h2>⭐ PREMIUM MSHAURI - 100 KES Tu!</h2>
-<p>Mimi sio daktari. Mimi ni Mshauri wa ShambaSmart. Unanitumia picha, nakutafutia jibu sahihi haraka na kukuelekeza kwa mtaalamu kama ni kubwa.</p>
-<div style="background:white; padding:15px; border-radius:8px; margin-top:10px; border:1px dashed #ff9800;">
-<p style="font-weight:bold; text-align:center;">💰 JINSI YA KULIPA:</p>
-<p><b>1.</b> <b></b> kwa M-PESA - <b></b> - Feysal</p>
-<p><b>2. SCREENSHOT:</b> Piga picha ya meseji ya M-PESA</p>
-<p><b>3. CHAT:</b> Bonyeza hapa chini na tuma screenshot + picha ya mmea wako</p>
-</div>
-<a href="https://wa.me/254725731494?text=Nimelipa%20100KES%20Premium%20Mshauri.%20Hii%20hapa%20screenshot%20na%20picha%20ya%20mmea%20wangu:" style="background:#25D366; color:white; padding:12px; display:block; text-align:center; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:10px;">💬 NIMELIPA - TUMA SCREENSHOT & PICHA</a>
-<p style="text-align:center; font-size:12px; margin-top:5px;">Ushauri wa kawaida wa kilimo, sio dawa ya daktari. Kwa matatizo makubwa, tutakuelekeza kwa Afisa Kilimo.</p>
-</div>
-<div class="card" style="background:#e8f5e9; border:3px solid #2e7d32;">
-<h2 style="text-align:center;">🛒 SOKO DIRECT - Uza Bila Middleman!</h2>
-<p style="text-align:center;">Mkulima, weka mazao yako hapa. Mnunuzi akupigie moja kwa moja!</p>
-<br>
-<h3>👨🏾‍🌾 WEKA MAZAO YAKO:</h3>
-<input id="sokoName" placeholder="Jina lako - Mfano: Juma, Nakuru">
-<input id="sokoCrop" placeholder="Mazao - Mfano: Nyanya 100kg">
-<input id="sokoPrice" placeholder="Bei - Mfano: 8500 KES">
-<input id="sokoPhone" placeholder="Namba ya WhatsApp - 0712345678">
-<button onclick="postSoko()">📢 TANGAZA SOKONI</button>
-<br><br>
-<h3>🔥 MAZAO YALIYOPO SOKONI SASA:</h3>
-<p style="font-size:13px; color:#2e7d32;">Mazao ya kweli tu kutoka kwa wakulima wa kweli. Hakuna fake!</p>
-<div id="sokoList"></div>
-<p style="font-size:13px; text-align:center;">ShambaSmart inachukua 2% tu baada ya kuuza. Mkulima anabaki na 98%!</p>
-</div>
-
-<div class="card">
-<h2>👥 Wakulima Waliojiandikisha ShambaSmart</h2>
-<p style="font-size:13px;">Hawa ndio wakulima halisi waliojiandikisha. Ukiwa hapa, Feysal anakujua!</p>
-<div id="farmerList"></div>
-</div>
-
-<p style="text-align:center; padding:20px;">Imetengenezwa na @Feysal 🇰🇪 kwa ajili ya Wakulima wa Kenya</p>
-</div>
 <script>
-var countyData = {
-  "Mombasa":{w:"Joto na Unyevu, Mvua kidogo pwani. 29°C", crop:"Mihogo, Mchicha, Nazi, Pilipili", tip:"Panda mihogo sasa - inastahimili chumvi ya pwani.", plant:"SASA PANDA: Mihogo (itakomaa miezi 8), Mchicha (siku 21 tu - pesa haraka!), Pilipili Hoho. USIPANDE: Mahindi - mvua haitoshi."},
-  "Kwale":{w:"Joto na Mvua kidogo. 28°C", crop:"Korosho, Mihogo, Mahindi, Miembe", tip:"Korosho ni bora sana Kwale.", plant:"SASA PANDA: Mihogo, Kunde, Mchicha. Panda miembe kwa msimu ujao."},
-  "Kilifi":{w:"Joto na Mvua kidogo. 29°C", crop:"Mihogo, Korosho, Nazi, Mahindi", tip:"Mihogo na korosho hufanya vizuri Kilifi.", plant:"SASA PANDA: Mihogo, Kunde, Mchicha. Mvua ni kidogo - usipande mahindi mengi."},
-  "Tana River":{w:"Joto na Kavu. 32°C", crop:"Mchele, Mtama, Mahindi, Ndizi", tip:"Tumia maji ya Tana River kwa umwagiliaji.", plant:"SASA PANDA: Mchele kwa umwagiliaji, Mtama, Kunde."},
-  "Lamu":{w:"Joto na Unyevu. 30°C", crop:"Nazi, Mihogo, Mchele", tip:"Nazi ni zao kubwa Lamu.", plant:"SASA PANDA: Mihogo, Mchele, Mchicha."},
-  "Taita-Taveta":{w:"Joto wastani, Mvua kidogo. 26°C", crop:"Ndizi, Mahindi, Nyanya, Pilipili", tip:"Ndizi hufanya vizuri kwenye milima ya Taita.", plant:"SASA PANDA: Nyanya, Pilipili, Mahindi ya mapema."},
-  "Garissa":{w:"Kavu Sana na Joto Kali. 34°C", crop:"Mtama, Mbuzi, Ngamia, Kunde", tip:"Kavu sana - fuga mbuzi/ngamia, panda mtama.", plant:"SASA PANDA: Mtama tu kwa umwagiliaji kidogo, Kunde. USIPANDE mahindi - itakauka. Fuga mbuzi."},
-  "Wajir":{w:"Kavu Sana na Joto Kali. 35°C", crop:"Mtama, Mbuzi, Ngamia", tip:"Fuga mifugo - kilimo cha mvua ni hatari hapa.", plant:"SASA: Usipande - fuga mbuzi/ngamia. Kama una maji, panda mtama kidogo."},
-  "Mandera":{w:"Kavu Sana na Joto Kali. 35°C", crop:"Mtama, Mbuzi, Ngamia", tip:"Panda mtama na fuga mbuzi.", plant:"SASA: Mtama na Kunde kwa maji kidogo. Fuga mbuzi."},
-  "Marsabit":{w:"Kavu na Joto. 30°C", crop:"Mtama, Mbuzi, Ngamia, Kunde", tip:"Marsabit ni kavu - panda mtama, fuga mbuzi.", plant:"SASA PANDA: Mtama (siku 60-90), Kunde (siku 60), Mchicha kwa maji kidogo. USIPANDE: Mahindi - inahitaji mvua nyingi, itakauka Marsabit!"},
-  "Isiolo":{w:"Kavu na Joto. 31°C", crop:"Mtama, Mbuzi, Kunde", tip:"Tumia umwagiliaji kidogo, panda mtama.", plant:"SASA PANDA: Mtama, Kunde, Kitunguu kwa umwagiliaji."},
-  "Meru":{w:"Baridi kidogo, Mvua nzuri. 22°C", crop:"Kahawa, Ndizi, Mahindi, Miraa", tip:"Kahawa na ndizi ni bora Meru.", plant:"SASA PANDA: Mahindi, Maharage, Viazi, Ndizi."},
-  "Tharaka-Nithi":{w:"Joto wastani, Mvua nzuri. 24°C", crop:"Mahindi, Ndizi, Kahawa, Mtama", tip:"Mahindi na ndizi hufanya vizuri.", plant:"SASA PANDA: Mahindi, Maharage, Ndizi."},
-  "Embu":{w:"Baridi kidogo, Mvua nzuri. 22°C", crop:"Kahawa, Macadamia, Mahindi, Ndizi", tip:"Macadamia na kahawa ni pesa kubwa Embu.", plant:"SASA PANDA: Mahindi, Maharage, Macadamia kwa muda mrefu."},
-  "Kitui":{w:"Kavu, Joto. 28°C", crop:"Mtama, Kunde, Mihogo, Maembe", tip:"Panda mtama na kunde - zinastahimili ukame Kitui.", plant:"SASA PANDA: Mtama, Kunde, Mihogo, Maembe. USIPANDE mahindi mengi - mvua ni kidogo."},
-  "Machakos":{w:"Kavu kidogo, Joto. 25°C", crop:"Maembe, Mtama, Kunde, Mahindi", tip:"Maembe ya Machakos ni maarufu!", plant:"SASA PANDA: Kunde, Mtama, Maembe, Nyanya kwa umwagiliaji."},
-  "Makueni":{w:"Kavu kidogo, Joto. 26°C", crop:"Maembe, Mtama, Kunde, Ndizi", tip:"Maembe na mtama ni bora Makueni.", plant:"SASA PANDA: Maembe, Mtama, Kunde."},
-  "Nyandarua":{w:"Baridi na Mvua nyingi. 16°C", crop:"Viazi, Cabbage, Karoti, Mahindi", tip:"Viazi na cabbage ni bora sana kwa baridi ya Nyandarua.", plant:"SASA PANDA: Viazi (miezi 3), Cabbage, Karoti, Mahindi. Baridi ni rafiki yako!"},
-  "Nyeri":{w:"Baridi, Mvua nzuri. 19°C", crop:"Kahawa, Chai, Viazi, Mahindi", tip:"Kahawa na chai ni bora Nyeri.", plant:"SASA PANDA: Viazi, Mahindi, Maharage, Cabbage."},
-  "Kirinyaga":{w:"Baridi kidogo, Mvua nzuri. 21°C", crop:"Mchele, Kahawa, Ndizi, Nyanya", tip:"Mchele wa Mwea ni maarufu!", plant:"SASA PANDA: Mchele, Nyanya, Mahindi, Ndizi."},
-  "Murang'a":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Kahawa, Ndizi, Macadamia, Avocado", tip:"Avocado na macadamia ni pesa kubwa Murang'a.", plant:"SASA PANDA: Avocado, Macadamia, Ndizi, Mahindi."},
-  "Kiambu":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Kahawa, Chai, Cabbage, Strawberry", tip:"Panda mboga za soko la Nairobi.", plant:"SASA PANDA: Cabbage, Sukuma, Spinach, Strawberry - soko la Nairobi liko karibu, utauza haraka!"},
-  "Turkana":{w:"Kavu Sana na Joto Kali. 36°C", crop:"Mtama, Mbuzi, Ngamia, Samaki", tip:"Kavu sana - fuga mbuzi/ngamia, panda mtama kwa umwagiliaji.", plant:"SASA: Mtama kwa umwagiliaji, Kunde. Fuga mbuzi/ngamia. USIPANDE mahindi."},
-  "West Pokot":{w:"Kavu kidogo, Joto. 27°C", crop:"Mtama, Mahindi, Mbuzi", tip:"Panda mtama na mahindi.", plant:"SASA PANDA: Mtama, Mahindi, Kunde."},
-  "Samburu":{w:"Kavu na Joto. 30°C", crop:"Mtama, Mbuzi, Ngamia", tip:"Fuga mifugo, panda mtama.", plant:"SASA PANDA: Mtama, Kunde. Fuga mbuzi."},
-  "Trans Nzoia":{w:"Baridi kidogo, Mvua nyingi. 20°C", crop:"Mahindi, Ngano, Mahindi", tip:"Mahindi ni mfalme Trans Nzoia!", plant:"SASA PANDA: Mahindi (mfalme!), Maharage, Ngano."},
-  "Uasin Gishu":{w:"Baridi kidogo, Mvua nzuri. 19°C", crop:"Mahindi, Ngano, Maziwa", tip:"Mahindi na ngano ni bora Eldoret.", plant:"SASA PANDA: Mahindi, Ngano, Viazi."},
-  "Elgeyo-Marakwet":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Mahindi, Viazi, Mboga", tip:"Mahindi na viazi hufanya vizuri.", plant:"SASA PANDA: Mahindi, Viazi, Cabbage."},
-  "Nandi":{w:"Baridi, Mvua nyingi. 19°C", crop:"Chai, Mahindi, Maziwa", tip:"Chai ni bora Nandi.", plant:"SASA PANDA: Mahindi, Chai, Viazi."},
-  "Baringo":{w:"Joto na Kavu kidogo. 27°C", crop:"Mtama, Mahindi, Mbuzi", tip:"Panda mtama na mahindi.", plant:"SASA PANDA: Mtama, Mahindi, Kunde."},
-  "Laikipia":{w:"Baridi kidogo, Mvua wastani. 21°C", crop:"Ngano, Mahindi, Viazi", tip:"Ngano na viazi ni bora Laikipia.", plant:"SASA PANDA: Ngano, Mahindi, Viazi."},
-  "Nakuru":{w:"Baridi kidogo, Mvua nzuri. 20°C", crop:"Viazi, Mahindi, Nyanya, Maua", tip:"Viazi na nyanya ni bora Nakuru.", plant:"SASA PANDA: Viazi, Nyanya, Mahindi, Cabbage - soko kubwa Nakuru!"},
-  "Narok":{w:"Baridi kidogo, Mvua wastani. 21°C", crop:"Ngano, Mahindi, Mbuzi", tip:"Ngano ni bora Narok.", plant:"SASA PANDA: Ngano, Mahindi, Viazi."},
-  "Kajiado":{w:"Joto na Kavu kidogo. 26°C", crop:"Nyanya, Kitunguu, Mbuzi", tip:"Nyanya na kitunguu kwa umwagiliaji.", plant:"SASA PANDA: Nyanya, Kitunguu, Pilipili kwa umwagiliaji - utauza Nairobi!"},
-  "Kericho":{w:"Baridi, Mvua nyingi. 18°C", crop:"Chai, Mahindi, Maziwa", tip:"Chai ni mfalme Kericho!", plant:"SASA PANDA: Chai, Mahindi, Viazi."},
-  "Bomet":{w:"Baridi, Mvua nyingi. 18°C", crop:"Chai, Mahindi, Viazi", tip:"Chai na viazi ni bora Bomet.", plant:"SASA PANDA: Chai, Viazi, Mahindi."},
-  "Kakamega":{w:"Joto wastani, Mvua nyingi. 23°C", crop:"Miwani, Mahindi, Ndizi, Miwa", tip:"Mahindi na ndizi ni bora Kakamega.", plant:"SASA PANDA: Mahindi, Ndizi, Maharage, Miwa."},
-  "Vihiga":{w:"Joto wastani, Mvua nyingi. 22°C", crop:"Mahindi, Ndizi, Chai", tip:"Mahindi na ndizi ni bora Vihiga.", plant:"SASA PANDA: Mahindi, Ndizi, Maharage."},
-  "Bungoma":{w:"Joto wastani, Mvua nyingi. 23°C", crop:"Miwa, Mahindi, Ndizi", tip:"Miwa ni bora Bungoma.", plant:"SASA PANDA: Miwa, Mahindi, Ndizi."},
-  "Busia":{w:"Joto, Mvua nyingi. 25°C", crop:"Mihogo, Mahindi, Samaki, Ndizi", tip:"Mihogo na samaki ni bora Busia.", plant:"SASA PANDA: Mihogo, Mahindi, Ndizi."},
-  "Siaya":{w:"Joto, Mvua nyingi. 24°C", crop:"Mahindi, Mihogo, Samaki", tip:"Mahindi na samaki ni bora Siaya.", plant:"SASA PANDA: Mahindi, Mihogo, Kunde."},
-  "Kisumu":{w:"Joto, Mvua nyingi. 25°C", crop:"Mchele, Mahindi, Samaki, Ndizi", tip:"Mchele wa Ahero ni bora!", plant:"SASA PANDA: Mchele, Mahindi, Ndizi, Sukuma."},
-  "Homa Bay":{w:"Joto, Mvua wastani. 25°C", crop:"Mahindi, Mtama, Samaki, Mihogo", tip:"Mahindi na samaki ni bora Homa Bay.", plant:"SASA PANDA: Mahindi, Mtama, Mihogo."},
-  "Migori":{w:"Joto, Mvua nyingi. 24°C", crop:"Mahindi, Ndizi, Miwa, Samaki", tip:"Mahindi na ndizi ni bora Migori.", plant:"SASA PANDA: Mahindi, Ndizi, Miwa."},
-  "Kisii":{w:"Baridi kidogo, Mvua nyingi. 21°C", crop:"Ndizi, Chai, Mahindi, Avocado", tip:"Ndizi za Kisii ni maarufu!", plant:"SASA PANDA: Ndizi, Chai, Avocado, Mahindi."},
-  "Nyamira":{w:"Baridi kidogo, Mvua nyingi. 20°C", crop:"Chai, Ndizi, Mahindi", tip:"Chai na ndizi ni bora Nyamira.", plant:"SASA PANDA: Chai, Ndizi, Mahindi."},
-  "Nairobi":{w:"Baridi kidogo, Mvua wastani. 20°C", crop:"Mboga, Nyanya, Cabbage, Sukuma", tip:"Nairobi ni soko!", plant:"SASA PANDA: Sukuma (siku 21!), Spinach, Nyanya, Cabbage, Pilipili - utauza leo leo sokoni!"}
+let treatmentBook={
+  "Maize":{disease:"Maize Leaf Blight / Fall Armyworm",treatment:"1. Spray insecticide for armyworm. 2. Apply CAN fertilizer. 3. Remove affected leaves. 4. Weed shamba."},
+  "Beans":{disease:"Bean Rust / Aphids",treatment:"1. Spray Neem oil. 2. Remove yellow leaves. 3. Apply DAP. 4. Don't over-water."},
+  "Tomatoes":{disease:"Late Blight / Tuta Absoluta",treatment:"1. Spray Copper fungicide KES 350. 2. Remove infected fruits. 3. Water at roots, not leaves."},
+  "Sukuma Wiki":{disease:"Diamondback Moth / Aphids",treatment:"1. Spray Neem oil. 2. Pick caterpillars by hand. 3. Apply manure."},
+  "Cabbage":{disease:"Black Rot / Caterpillars",treatment:"1. Remove rotten outer leaves. 2. Spray insecticide. 3. Rotate crops next season."},
+  "Potatoes":{disease:"Late Blight",treatment:"1. Spray Ridomil. 2. Earth up soil around stem. 3. Harvest early if severe."},
+  "Onions":{disease:"Purple Blotch / Thrips",treatment:"1. Spray fungicide. 2. Reduce watering. 3. Dry onions well after harvest."},
+  "Bananas":{disease:"Banana Bacterial Wilt",treatment:"1. Cut and bury infected plant. 2. Disinfect tools. 3. Don't move suckers from sick plant."},
+  "Coffee":{disease:"Coffee Leaf Rust",treatment:"1. Spray Copper fungicide. 2. Prune for air. 3. Apply CAN."},
+  "Tea":{disease:"Tea Blister Blight",treatment:"1. Pluck affected leaves. 2. Spray fungicide. 3. Improve drainage."},
+  "default":{disease:"General Disease / Nutrient Deficiency",treatment:"1. Remove affected leaves. 2. Spray Neem oil + Fungicide. 3. Apply balanced fertilizer (NPK). 4. Water in morning only. 5. Visit agrovet with photo."}
 };
-function checkWeather(){
-  var c = document.getElementById('county').value;
-  var d = countyData[c];
-  var box = document.getElementById('weatherResult');
-  box.style.display = 'block';
-  box.innerHTML = '<b>📍 ' + c + '</b><br>🌦️ <b>Hali ya Hewa:</b> ' + d.w + '<br>🌾 <b>Mazao Bora Hapa:</b> ' + d.crop + '<br>💡 <b>Ushauri:</b> ' + d.tip;
-}
-function whatToPlant(){
-  var c = document.getElementById('county').value;
-  var d = countyData[c];
-  var box = document.getElementById('plantResult');
-  box.style.display = 'block';
-  box.innerHTML = '<b>📍 ' + c + ' - NOVEMBA 2026 - Mvua Mfupi</b><br><br>🌱 <b>' + d.plant + '</b><br><br>⏰ <b>Haraka:</b> Panda SASA mvua ikiwa. Kama huna mvua, tumia maji kidogo asubuhi na jioni.<br>💰 <b>Pesa Haraka:</b> Mchicha na Sukuma zinakomaa siku 21 tu - utauza kabla ya Krismasi!';
-}
-function checkPest(){
-  var s = document.getElementById('symptom').value;
-  document.getElementById('pestResult').innerText = 'Mshauri: Kwa dalili "' + s + '" - Tumia dawa ya copper, na ondoa majani yaliyoathirika. Kama ni kubwa, nenda Agrovet.';
-}
-function getFarmers(){
-  var saved = localStorage.getItem('shambaFarmersV1');
-  if(saved){ return JSON.parse(saved); }
-  return [];
-}
-function showFarmers(){
-  var list = getFarmers();
-  document.getElementById('farmerCount').innerText = '✅ Wakulima Waliojiandikisha: ' + list.length + ' - Jiunge nao!';
-  if(list.length===0){
-    document.getElementById('farmerList').innerHTML = '<p style="text-align:center; padding:15px; background:#fff; border-radius:10px;">Bado hakuna mkulima aliyejiandikisha. Kuwa wa KWANZA! 👆</p>';
-    return;
+function setRole(role){
+  document.getElementById("btnSupplier").classList.remove("active");
+  document.getElementById("btnSeller").classList.remove("active");
+  if(role==="supplier"){
+    document.getElementById("btnSupplier").classList.add("active");
+    document.getElementById("sellerBlock").classList.add("hidden");
+    document.getElementById("supplierArea").classList.remove("hidden");
+    document.getElementById("roleMsg").innerHTML="You are <b>Supplier</b> - You can scan.";
+    checkPayment();
+  } else {
+    document.getElementById("btnSeller").classList.add("active");
+    document.getElementById("supplierArea").classList.add("hidden");
+    document.getElementById("sellerBlock").classList.remove("hidden");
+    document.getElementById("roleMsg").innerHTML="You are <b>Seller</b> - Go to Soko Direct.";
   }
-  var html = "";
-  for(var i=0; i<list.length; i++){
-    var f = list[i];
-    var waLink = "https://wa.me/" + f.phone + "?text=Karibu%20ShambaSmart%20" + encodeURIComponent(f.name);
-    html += '<div class="farmer-item"><b>👨🏾‍🌾 ' + f.name + '</b> - ' + f.county + ' | Analima: ' + f.crop + '<br><a href="' + waLink + '" style="background:#25D366; color:white; padding:6px 12px; display:inline-block; border-radius:6px; margin-top:5px; text-decoration:none; font-size:13px; font-weight:bold;">💬 Chat</a></div>';
+  localStorage.setItem("shamba_role",role);
+}
+function verifyPayment(){
+  let code=document.getElementById("mpesaCode").value.trim().toUpperCase();
+  if(code.length<5){alert("Enter correct M-Pesa Code. Example QK123ABC");return;}
+  let used=JSON.parse(localStorage.getItem("used_codes")||"[]");
+  if(used.includes(code)){alert("This M-Pesa Code already used! Use a new payment.");return;}
+  used.push(code); localStorage.setItem("used_codes",JSON.stringify(used));
+  let now=new Date().getTime();
+  let expiry=now+(12*60*60*1000);
+  localStorage.setItem("scan_expiry",expiry);
+  localStorage.setItem("scan_paid","yes");
+  // Save to Admin
+  let payments=JSON.parse(localStorage.getItem("admin_payments")||"[]");
+  let user=JSON.parse(localStorage.getItem("shamba_user")||"{}");
+  payments.unshift({phone:user.phone||"Unknown",name:user.name||"Farmer from Scan",crop:"Scan Payment",code:code,time:new Date().toLocaleString(),expiry:expiry,expiryStr:new Date(expiry).toLocaleString()});
+  localStorage.setItem("admin_payments",JSON.stringify(payments));
+  alert("Payment received! You have 12 hours scanning. Starts now!");
+  checkPayment();
+}
+function checkPayment(){
+  let expiry=localStorage.getItem("scan_expiry");
+  if(!expiry) return;
+  let now=new Date().getTime();
+  if(now<parseInt(expiry)){
+    document.getElementById("payWall").classList.add("hidden");
+    document.getElementById("scanArea").classList.remove("hidden");
+    startTimer();
+  } else {
+    document.getElementById("payWall").classList.remove("hidden");
+    document.getElementById("scanArea").classList.add("hidden");
+    alert("Your 12 hours finished! Pay 100 KES again to 0725731494.");
   }
-  document.getElementById('farmerList').innerHTML = html;
 }
-function registerFarmer(){
-  var name=document.getElementById('regName').value;
-  var phone=document.getElementById('regPhone').value;
-  var county=document.getElementById('regCounty').value;
-  var crop=document.getElementById('regCrop').value;
-  if(!name||!phone||!crop){ alert('Tafadhali jaza Jina, Namba ya Simu, na Unalima Nini!'); return; }
-  phone = phone.trim().replace(/\s/g,'');
-  if(phone.startsWith('0')){ phone = '254' + phone.substring(1); }
-  if(phone.startsWith('+')){ phone = phone.substring(1); }
-  var list = getFarmers();
-  // Check if already registered
-  for(var i=0; i<list.length; i++){ if(list[i].phone===phone){ alert('Umesajiliwa tayari ' + name + '! Karibu tena!'); return; } }
-  list.unshift({name:name, phone:phone, county:county, crop:crop});
-  localStorage.setItem('shambaFarmersV1', JSON.stringify(list));
-  document.getElementById('registerForm').style.display='none';
-  var success = document.getElementById('registerSuccess');
-  success.style.display='block';
-  success.innerHTML = '<h2 style="color:#2e7d32;">🎉 Karibu ' + name + '!</h2><p>Umesajiliwa kama <b>Mkulima #' + list.length + '</b> wa ShambaSmart!</p><p>County: <b>' + county + '</b> | Unalima: <b>' + crop + '</b></p><p style="margin-top:10px;">Sasa unaweza kuangalia Hali ya Hewa na Nini Kupanda kwa ' + county + ' hapo chini! 👇</p><a href="https://wa.me/254725731494?text=Nimejiandikisha%20ShambaSmart!%20Mimi%20ni%20' + encodeURIComponent(name) + '%20kutoka%20' + encodeURIComponent(county) + '%20nalima%20' + encodeURIComponent(crop) + '" style="background:#25D366; color:white; padding:12px; display:block; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:10px;">💬 NIAMBIE FEYSAL NIMESAJILIWA</a>';
-  // Auto set county dropdowns to their county
-  document.getElementById('county').value = county;
-  showFarmers();
-  alert('Hongera ' + name + '! Umesajiliwa! Sasa chagua Hali ya Hewa ya ' + county + '!');
+function startTimer(){
+  setInterval(()=>{
+    let expiry=parseInt(localStorage.getItem("scan_expiry"));
+    let now=new Date().getTime();
+    let diff=expiry-now;
+    if(diff<=0){location.reload();return;}
+    let h=Math.floor(diff/(1000*60*60));
+    let m=Math.floor((diff%(1000*60*60))/(1000*60));
+    let s=Math.floor((diff%(1000*60))/1000);
+    document.getElementById("timer").innerHTML=`⏰ Time Left: ${h}h ${m}m ${s}s - Pay 100 to 0725731494 to extend`;
+  },1000);
 }
-function getSoko(){
-  var saved = localStorage.getItem('sokoListingsV2');
-  if(saved){ return JSON.parse(saved); }
-  return [];
+function previewPhoto(e){
+  let file=e.target.files[0];
+  let reader=new FileReader();
+  reader.onload=function(){
+    let img=document.getElementById("preview");
+    img.src=reader.result; img.style.display="block";
+  };
+  reader.readAsDataURL(file);
 }
-function showSoko(){
-  var list = getSoko();
-  if(list.length===0){
-    document.getElementById('sokoList').innerHTML = '<p style="text-align:center; padding:20px; background:#fff; border-radius:10px;">Soko bado liko tupu. Kuwa wa KWANZA kuweka mazao yako hapo juu! 👆</p>';
-    return;
+function scanCrop(){
+  let crop=document.getElementById("cropSelect").value;
+  let photo=document.getElementById("cropPhoto").files[0];
+  if(!crop){alert("Please select crop first!");return;}
+  if(!photo){alert("Please upload photo first!");return;}
+  let img=document.getElementById("preview");
+  let canvas=document.createElement("canvas");
+  let ctx=canvas.getContext("2d");
+  canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
+  ctx.drawImage(img,0,0);
+  let data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  let green=0,yellowBrown=0;
+  for(let i=0;i<data.length;i+=100){
+    let r=data[i],g=data[i+1],b=data[i+2];
+    if(g>r && g>b && g>80) green++;
+    else if(r>100 && g>80 && b<100) yellowBrown++;
   }
-  var html = "";
-  for(var i=0; i<list.length; i++){
-    var item = list[i];
-    var waLink = "https://wa.me/" + item.phone + "?text=Nataka%20" + encodeURIComponent(item.crop) + "%20yako%20Soko%20Direct";
-    html += '<div class="soko-item"><b>🌾 ' + item.crop + '</b><br>Bei: <b>' + item.price + '</b> | Muuzaji: ' + item.name + '<br><a href="' + waLink + '" style="background:#25D366; color:white; padding:10px 15px; display:inline-block; border-radius:8px; margin-top:8px; text-decoration:none; font-weight:bold;">💬 Chat WhatsApp</a></div>';
+  let total=green+yellowBrown||1;
+  let health=Math.round((green/total)*100);
+  if(health>100) health=92;
+  let info=treatmentBook[crop]||treatmentBook["default"];
+  let resultDiv=document.getElementById("result");
+  let isGood=health>65;
+  if(isGood){
+    resultDiv.innerHTML=`<div class="result-good"><h3>✅ GOOD - ${crop} is Healthy!</h3><p>Health Score: ${health}%</p><p>Your ${crop} looks good. Keep watering, weeding and applying manure.</p></div>`;
+  } else {
+    resultDiv.innerHTML=`<div class="result-bad"><h3>❌ BAD - ${crop} Needs Treatment!</h3><p>Health Score: ${health}%</p><p><b>Possible Problem:</b> ${info.disease}</p><p><b>Treatment:</b><br>${info.treatment}</p><p><b>Action:</b> Go to agrovet with this photo.</p></div>`;
   }
-  document.getElementById('sokoList').innerHTML = html;
+  // Save scan to Admin
+  let scans=JSON.parse(localStorage.getItem("admin_scans")||"[]");
+  scans.unshift({crop:crop,result:isGood?"GOOD ✅":"BAD ❌",time:new Date().toLocaleString()});
+  localStorage.setItem("admin_scans",JSON.stringify(scans));
+  resultDiv.scrollIntoView({behavior:"smooth"});
 }
-function postSoko(){
-  var name=document.getElementById('sokoName').value;
-  var crop=document.getElementById('sokoCrop').value;
-  var price=document.getElementById('sokoPrice').value;
-  var phone=document.getElementById('sokoPhone').value;
-  if(!name||!crop||!price||!phone){ alert('Tafadhali jaza sehemu zote!'); return; }
-  phone = phone.trim().replace(/\s/g,'');
-  if(phone.startsWith('0')){ phone = '254' + phone.substring(1); }
-  if(phone.startsWith('+')){ phone = phone.substring(1); }
-  var list = getSoko();
-  list.unshift({name:name, crop:crop, price:price, phone:phone});
-  localStorage.setItem('sokoListingsV2', JSON.stringify(list));
-  showSoko();
-  document.getElementById('sokoName').value='';
-  document.getElementById('sokoCrop').value='';
-  document.getElementById('sokoPrice').value='';
-  document.getElementById('sokoPhone').value='';
-  alert('Hongera '+name+'! Mazao yako '+crop+' yamehifadhiwa Sokoni FOREVER!');
+window.onload=function(){
+  let saved=localStorage.getItem("shamba_role");
+  if(saved) setRole(saved);
 }
-showSoko();
-showFarmers();
 </script>
 </body>
 </html>
