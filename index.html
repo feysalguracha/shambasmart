@@ -3,179 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShambaSmart - Crop Scan</title>
+<title>County Weather - ShambaSmart</title>
 <style>
-  body{font-family:Arial;background:#f0f7e6;margin:0;padding:15px}
-  .box{background:white;border-radius:15px;padding:20px;max-width:500px;margin:auto;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
-  h1{color:#2e7d32;text-align:center} h2{color:#2e7d32}
-  select,input,button{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
-  button{background:#2e7d32;color:white;border:none;font-weight:bold;cursor:pointer}
-  .pay-btn{background:#000} .timer{background:#fff3cd;padding:12px;border-radius:10px;text-align:center;font-weight:bold;font-size:18px;margin:10px 0}
-  .result-good{background:#d4edda;padding:15px;border-radius:10px} .result-bad{background:#f8d7da;padding:15px;border-radius:10px}
-  #preview{width:100%;border-radius:10px;margin-top:10px;display:none} .hidden{display:none}
-  .role-btn{background:white;color:#2e7d32;border:2px solid #2e7d32} .role-btn.active{background:#2e7d32;color:white}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+body { background: #f0f7f0; padding: 16px; padding-bottom: 40px; }
+.top { text-align: center; margin-bottom: 16px; }
+.top h1 { color: #1a7a2e; font-size: 26px; }
+.top p { font-size: 14px; color: #555; margin-top: 6px; }
+.card { background: white; border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+select { width: 100%; padding: 15px; border-radius: 12px; border: 1.5px solid #ddd; font-size: 16px; background: white; }
+.weather-box { text-align: center; padding: 16px; border-radius: 12px; margin-top: 12px; font-size: 18px; font-weight: 800; line-height: 1.4; }
+.rain { background: #e3f2fd; color: #1565c0; }
+.dry { background: #fff3e0; color: #e65100; }
+.grow { background: #e8f5e9; border-radius: 12px; padding: 14px; margin-top: 12px; line-height: 1.6; font-size: 15px; }
+.grow b { color: #1a7a2e; }
+.grow ul { margin-left: 18px; margin-top: 6px; }
+.warn { background: #fff8e1; border-radius: 12px; padding: 12px; margin-top: 12px; font-size: 14px; line-height: 1.5; }
+.back { display: block; text-align: center; margin-top: 14px; color: #6a1b9a; }
+.loading { text-align: center; padding: 14px; color: #666; }
+.small { font-size: 13px; font-weight: 400; color: #666; margin-top: 6px; }
 </style>
 </head>
 <body>
-<div class="box">
-  <h1>🌱 ShambaSmart Scan</h1>
-  <p style="text-align:center;">Scan Any Crop - GOOD or BAD + Treatment<br><b>100 KES = 12 Hours</b> - From Moment You Pay</p>
-  <h2>1. Who Are You?</h2>
-  <button class="role-btn" id="btnSupplier" onclick="setRole('supplier')">🚜 Supplier - I Grow In Shamba</button>
-  <button class="role-btn" id="btnSeller" onclick="setRole('seller')">🛒 Seller - I Buy & Sell In Market</button>
-  <p id="roleMsg"></p>
-  <div id="sellerBlock" class="hidden">
-    <div style="background:#ffe0e0;padding:15px;border-radius:10px;"><b>Sorry Seller!</b><br>Scanning is for Suppliers only.<br>Go to Soko Direct to buy crops.</div>
-  </div>
-  <div id="supplierArea" class="hidden">
-    <div id="payWall">
-      <h2>2. Pay To Unlock Scan</h2>
-      <div style="background:#fff3cd;padding:15px;border-radius:10px;">
-        <b>🔒 Scan Locked</b><br>Pay <b>KES 100</b> to unlock <b>12 Hours</b><br>Example: Pay 8 PM = Scan until 8 AM.<br><br>
-        <b>How To Pay:</b><br>1. M-Pesa -> Send Money<br>2. Send <b>KES 100</b> to <b>0725731494</b><br>3. Get M-Pesa Code e.g. QK123ABC<br>4. Enter code below
-      </div>
-      <input type="text" id="mpesaCode" placeholder="Enter M-Pesa Code e.g. QK7X123ABC">
-      <button class="pay-btn" onclick="verifyPayment()">✅ I Have Paid - Unlock Scan</button>
-    </div>
-    <div id="scanArea" class="hidden">
-      <div class="timer" id="timer">⏰ Time Left: 12h 00m</div>
-      <p style="text-align:center;color:green;">✅ Paid! Scan Unlocked</p>
-      <h2>3. Select Your Crop - ALL CROPS</h2>
-      <select id="cropSelect">
-        <option value="">-- Select Crop --</option>
-        <optgroup label="Food Crops"><option>Maize</option><option>Beans</option><option>Rice</option><option>Wheat</option><option>Potatoes</option><option>Sweet Potatoes</option><option>Cassava</option><option>Yams</option></optgroup>
-        <optgroup label="Vegetables"><option>Sukuma Wiki</option><option>Cabbage</option><option>Tomatoes</option><option>Onions</option><option>Carrots</option><option>Spinach</option><option>Kales</option><option>Lettuce</option><option>Broccoli</option><option>Eggplant</option><option>Okra</option><option>Capsicum (Hoho)</option><option>Cucumber</option><option>French Beans</option><option>Peas</option></optgroup>
-        <optgroup label="Fruits"><option>Bananas</option><option>Mangoes</option><option>Oranges</option><option>Avocados</option><option>Pawpaw</option><option>Watermelon</option><option>Pineapple</option><option>Passion Fruit</option><option>Lemons</option><option>Strawberries</option></optgroup>
-        <optgroup label="Cash Crops"><option>Tea</option><option>Coffee</option><option>Sugarcane</option><option>Cotton</option><option>Sunflower</option></optgroup>
-      </select>
-      <h2>4. Upload Photo of Crop / Leaf</h2>
-      <input type="file" id="cropPhoto" accept="image/*" onchange="previewPhoto(event)">
-      <img id="preview">
-      <button onclick="scanCrop()">🔍 SCAN NOW</button>
-      <div id="result"></div>
-    </div>
-  </div>
-  <br><a href="index.html">← Back to Home</a>
+<div class="top">
+  <h1>🌦️ County Weather - Live</h1>
+  <p>Counties Zote 47 - Chagua Yako Ujue Cha Kupanda Leo</p>
+  <p style="font-size:12px;">Live Weather from Satellite • Updated Every Hour</p>
 </div>
+
+<div class="card">
+  <label><b>1. Chagua County Yako:</b></label><br><br>
+  <select id="county" onchange="checkWeather()">
+    <option value="">-- Chagua County --</option>
+  </select>
+  <div id="result"></div>
+</div>
+
+<div class="card">
+  <h3>🌱 Sheria Ya ShambaSmart:</h3>
+  <p style="line-height:1.6; font-size:14px; margin-top:8px;">
+  <b>☔ Kama Kunanyesha:</b> Panda Maize, Beans, Potatoes, Cabbage, Rice, Bananas - Zinapenda maji.<br><br>
+  <b>☀️ Kama Kavu / Jua:</b> Panda Sorghum, Millet, Cassava, Cowpeas, Green Grams, Sweet Potatoes, Watermelon - Zinavumilia ukame. Usipande Maize, itakauka.
+  </p>
+</div>
+
+<a class="back" href="index.html">← Back to Home</a>
+
 <script>
-let treatmentBook={
-  "Maize":{disease:"Maize Leaf Blight / Fall Armyworm",treatment:"1. Spray insecticide for armyworm. 2. Apply CAN fertilizer. 3. Remove affected leaves. 4. Weed shamba."},
-  "Beans":{disease:"Bean Rust / Aphids",treatment:"1. Spray Neem oil. 2. Remove yellow leaves. 3. Apply DAP. 4. Don't over-water."},
-  "Tomatoes":{disease:"Late Blight / Tuta Absoluta",treatment:"1. Spray Copper fungicide KES 350. 2. Remove infected fruits. 3. Water at roots, not leaves."},
-  "Sukuma Wiki":{disease:"Diamondback Moth / Aphids",treatment:"1. Spray Neem oil. 2. Pick caterpillars by hand. 3. Apply manure."},
-  "Cabbage":{disease:"Black Rot / Caterpillars",treatment:"1. Remove rotten outer leaves. 2. Spray insecticide. 3. Rotate crops next season."},
-  "Potatoes":{disease:"Late Blight",treatment:"1. Spray Ridomil. 2. Earth up soil around stem. 3. Harvest early if severe."},
-  "Onions":{disease:"Purple Blotch / Thrips",treatment:"1. Spray fungicide. 2. Reduce watering. 3. Dry onions well after harvest."},
-  "Bananas":{disease:"Banana Bacterial Wilt",treatment:"1. Cut and bury infected plant. 2. Disinfect tools. 3. Don't move suckers from sick plant."},
-  "Coffee":{disease:"Coffee Leaf Rust",treatment:"1. Spray Copper fungicide. 2. Prune for air. 3. Apply CAN."},
-  "Tea":{disease:"Tea Blister Blight",treatment:"1. Pluck affected leaves. 2. Spray fungicide. 3. Improve drainage."},
-  "default":{disease:"General Disease / Nutrient Deficiency",treatment:"1. Remove affected leaves. 2. Spray Neem oil + Fungicide. 3. Apply balanced fertilizer (NPK). 4. Water in morning only. 5. Visit agrovet with photo."}
+// ALL 47 COUNTIES - Lat / Lon for Live Weather + Crops
+const counties = {
+  "Mombasa": { lat: -4.0435, lon: 39.6682, rain: ["Cassava","Mchicha","Coconut","Bananas"], dry: ["Cassava","Mchicha","Cowpeas","Sweet Potatoes"] },
+  "Kwale": { lat: -4.1814, lon: 39.4606, rain: ["Maize","Cassava","Bananas","Oranges"], dry: ["Cassava","Cashew Nuts","Cowpeas","Green Grams"] },
+  "Kilifi": { lat: -3.5107, lon: 39.9093, rain: ["Maize","Cassava","Coconut","Mangoes"], dry: ["Cassava","Cashew","Cowpeas","Watermelon"] },
+  "Tana River": { lat: -1.5, lon: 40.0, rain: ["Rice","Maize","Bananas","Mangoes"], dry: ["Sorghum","Millet","Cowpeas","Watermelon"] },
+  "Lamu": { lat: -2.2717, lon: 40.902, rain: ["Maize","Coconut","Cassava","Mangoes"], dry: ["Cassava","Coconut","Cowpeas","Cashew"] },
+  "Taita-Taveta": { lat: -3.3161, lon: 38.4842, rain: ["Maize","Beans","Bananas","Vegetables"], dry: ["Sorghum","Green Grams","Cowpeas","Sweet Potatoes"] },
+  "Garissa": { lat: -0.4532, lon: 39.646, rain: ["Sorghum","Maize","Watermelon","Cowpeas"], dry: ["Sorghum","Watermelon","Cowpeas","Millet"] },
+  "Wajir": { lat: 1.7471, lon: 40.0589, rain: ["Sorghum","Maize","Watermelon"], dry: ["Sorghum","Millet","Cowpeas","Watermelon"] },
+  "Mandera": { lat: 3.9167, lon: 41.8333, rain: ["Sorghum","Maize","Watermelon"], dry: ["Sorghum","Millet","Cowpeas"] },
+  "Marsabit": { lat: 2.3284, lon: 37.9899, rain: ["Maize","Beans","Sorghum"], dry: ["Sorghum","Millet","Cowpeas","Green Grams"] },
+  "Isiolo": { lat: 0.3556, lon: 37.5833, rain: ["Maize","Beans","Sorghum"], dry: ["Sorghum","Cowpeas","Green Grams","Watermelon"] },
+  "Meru": { lat: 0.0477, lon: 37.6491, rain: ["Maize","Potatoes","Bananas","Miraa"], dry: ["Sorghum","Cowpeas","Sweet Potatoes","Pigeon Peas"] },
+  "Tharaka-Nithi": { lat: -0.3, lon: 37.9, rain: ["Maize","Beans","Bananas","Millet"], dry: ["Sorghum","Millet","Green Grams","Cowpeas"] },
+  "Embu": { lat: -0.5333, lon: 37.45, rain: ["Maize","Beans","Bananas","Macadamia"], dry: ["Green Grams","Cowpeas","Sorghum","Sweet Potatoes"] },
+  "Kitui": { lat: -1.3667, lon: 38.0167, rain: ["Maize","Beans","Green Grams","Pigeon Peas"], dry: ["Green Grams","Cowpeas","Sorghum","Cassava"] },
+  "Machakos": { lat: -1.5167, lon: 37.2667, rain: ["Maize","Beans","Green Grams","Pigeon Peas"], dry: ["Green Grams","Cowpeas","Sorghum","Cassava"] },
+  "Makueni": { lat: -1.8, lon: 37.6167, rain: ["Maize","Beans","Green Grams","Mangoes"], dry: ["Green Grams","Cowpeas","Sorghum","Pigeon Peas"] },
+  "Nyandarua": { lat: -0.5333, lon: 36.6167, rain: ["Potatoes","Cabbage","Carrots","Maize"], dry: ["Potatoes","Cabbage","Onions","Carrots na maji"] },
+  "Nyeri": { lat: -0.4201, lon: 36.9476, rain: ["Maize","Potatoes","Cabbage","Tea","Coffee"], dry: ["Potatoes","Cabbage","Onions","Sweet Potatoes"] },
+  "Kirinyaga": { lat: -0.5, lon: 37.3, rain: ["Rice","Maize","Beans","Bananas"], dry: ["Green Grams","Cowpeas","Sweet Potatoes","Sorghum"] },
+  "Murang'a": { lat: -0.7167, lon: 36.7833, rain: ["Maize","Beans","Bananas","Tea","Avocado"], dry: ["Sweet Potatoes","Cowpeas","Green Grams","Cassava"] },
+  "Kiambu": { lat: -1.1714, lon: 36.8356, rain: ["Maize","Cabbage","Kales","Potatoes"], dry: ["Cabbage","Kales","Onions","Spinach na maji"] },
+  "Turkana": { lat: 3.1191, lon: 35.597, rain: ["Sorghum","Maize","Watermelon"], dry: ["Sorghum","Millet","Watermelon","Cowpeas"] },
+  "West Pokot": { lat: 1.25, lon: 35.1, rain: ["Maize","Beans","Sorghum","Millet"], dry: ["Sorghum","Millet","Cowpeas","Green Grams"] },
+  "Samburu": { lat: 0.55, lon: 37.5, rain: ["Maize","Beans","Sorghum"], dry: ["Sorghum","Millet","Cowpeas"] },
+  "Trans Nzoia": { lat: 1.0167, lon: 35.0, rain: ["Maize","Beans","Sunflower","Potatoes"], dry: ["Sunflower","Sorghum","Cowpeas","Sweet Potatoes"] },
+  "Uasin Gishu": { lat: 0.5167, lon: 35.2833, rain: ["Maize","Wheat","Barley","Potatoes"], dry: ["Wheat","Sorghum","Sunflower","Sweet Potatoes"] },
+  "Elgeyo-Marakwet": { lat: 0.85, lon: 35.5, rain: ["Maize","Potatoes","Beans","Millet"], dry: ["Millet","Sorghum","Sweet Potatoes","Cowpeas"] },
+  "Nandi": { lat: 0.1833, lon: 35.1, rain: ["Maize","Tea","Beans","Potatoes"], dry: ["Tea","Sweet Potatoes","Sorghum","Cowpeas"] },
+  "Baringo": { lat: 0.4667, lon: 35.9667, rain: ["Maize","Beans","Sorghum","Coffee"], dry: ["Sorghum","Millet","Cowpeas","Green Grams"] },
+  "Laikipia": { lat: 0.0167, lon: 36.8, rain: ["Maize","Wheat","Beans","Potatoes"], dry: ["Wheat","Sorghum","Sunflower","Cowpeas"] },
+  "Nakuru": { lat: -0.3031, lon: 36.08, rain: ["Maize","Potatoes","Cabbage","Carrots","Wheat"], dry: ["Wheat","Potatoes","Onions","Cabbage na maji"] },
+  "Narok": { lat: -1.0833, lon: 36.95, rain: ["Maize","Wheat","Beans","Potatoes"], dry: ["Wheat","Sorghum","Barley","Cowpeas"] },
+  "Kajiado": { lat: -1.85, lon: 36.7833, rain: ["Maize","Beans","Tomatoes","Onions"], dry: ["Sorghum","Cowpeas","Onions","Tomatoes na maji"] },
+  "Kericho": { lat: -0.3667, lon: 35.2833, rain: ["Tea","Maize","Beans","Potatoes"], dry: ["Tea","Sweet Potatoes","Sorghum","Beans"] },
+  "Bomet": { lat: -0.7833, lon: 35.3333, rain: ["Tea","Maize","Beans","Potatoes"], dry: ["Tea","Sweet Potatoes","Sorghum","Maize na maji"] },
+  "Kakamega": { lat: 0.0833, lon: 34.7667, rain: ["Maize","Beans","Bananas","Sugarcane"], dry: ["Sugarcane","Bananas","Sweet Potatoes","Cassava"] },
+  "Vihiga": { lat: 0.0833, lon: 34.7167, rain: ["Maize","Beans","Bananas","Tea"], dry: ["Bananas","Sweet Potatoes","Cassava","Tea"] },
+  "Bungoma": { lat: 0.5667, lon: 34.5667, rain: ["Maize","Beans","Sugarcane","Bananas"], dry: ["Sugarcane","Bananas","Sweet Potatoes","Cassava"] },
+  "Busia": { lat: 0.4667, lon: 34.1117, rain: ["Maize","Beans","Cassava","Groundnuts"], dry: ["Cassava","Groundnuts","Sweet Potatoes","Sorghum"] },
+  "Siaya": { lat: 0.0611, lon: 34.2881, rain: ["Maize","Beans","Sorghum","Groundnuts"], dry: ["Sorghum","Cassava","Sweet Potatoes","Groundnuts"] },
+  "Kisumu": { lat: -0.0917, lon: 34.768, rain: ["Maize","Beans","Rice","Groundnuts"], dry: ["Rice","Sorghum","Sweet Potatoes","Cassava"] },
+  "Homa Bay": { lat: -0.5273, lon: 34.4571, rain: ["Maize","Beans","Sorghum","Groundnuts"], dry: ["Sorghum","Cassava","Sweet Potatoes","Millet"] },
+  "Migori": { lat: -1.0634, lon: 34.4731, rain: ["Maize","Beans","Bananas","Sugarcane"], dry: ["Sugarcane","Bananas","Cassava","Sweet Potatoes"] },
+  "Kisii": { lat: -0.6773, lon: 34.7796, rain: ["Maize","Beans","Bananas","Tea"], dry: ["Bananas","Tea","Sweet Potatoes","Cassava"] },
+  "Nyamira": { lat: -0.5667, lon: 34.9333, rain: ["Maize","Beans","Bananas","Tea"], dry: ["Bananas","Tea","Sweet Potatoes","Cassava"] },
+  "Nairobi": { lat: -1.2921, lon: 36.8219, rain: ["Maize","Kales","Spinach","Cabbage"], dry: ["Kales","Spinach","Onions","Tomatoes na maji"] }
 };
-function setRole(role){
-  document.getElementById("btnSupplier").classList.remove("active");
-  document.getElementById("btnSeller").classList.remove("active");
-  if(role==="supplier"){
-    document.getElementById("btnSupplier").classList.add("active");
-    document.getElementById("sellerBlock").classList.add("hidden");
-    document.getElementById("supplierArea").classList.remove("hidden");
-    document.getElementById("roleMsg").innerHTML="You are <b>Supplier</b> - You can scan.";
-    checkPayment();
-  } else {
-    document.getElementById("btnSeller").classList.add("active");
-    document.getElementById("supplierArea").classList.add("hidden");
-    document.getElementById("sellerBlock").classList.remove("hidden");
-    document.getElementById("roleMsg").innerHTML="You are <b>Seller</b> - Go to Soko Direct.";
+
+// Fill dropdown
+const sel = document.getElementById('county');
+Object.keys(counties).sort().forEach(c => {
+  let o = document.createElement('option');
+  o.value = c; o.textContent = c;
+  sel.appendChild(o);
+});
+
+async function checkWeather(){
+  let c = sel.value;
+  let box = document.getElementById('result');
+  if(!c){ box.innerHTML=''; return; }
+  box.innerHTML = '<div class="loading">⏳ Inatafuta Live Weather ya ' + c + '...</div>';
+  let info = counties[c];
+  try {
+    // FREE Live Weather API - No Key Needed
+    let url = `https://api.open-meteo.com/v1/forecast?latitude=${info.lat}&longitude=${info.lon}&current=temperature_2m,precipitation,weather_code,relative_humidity_2m&daily=precipitation_probability_max&timezone=Africa%2FNairobi`;
+    let res = await fetch(url);
+    let j = await res.json();
+    let temp = Math.round(j.current.temperature_2m);
+    let code = j.current.weather_code;
+    let rainProb = j.daily.precipitation_probability_max[0];
+    let precip = j.current.precipitation;
+
+    // Weather Code: 0=Clear, 1-3=Cloudy, 45-48=Fog, 51-67=Rain, 71-77=Snow, 80-82=Rain Showers, 95-99=Thunder
+    let isRain = (code >= 51 && code <= 67) || (code >= 80 && code <= 82) || (code >= 95 && code <= 99) || precip > 0 || rainProb > 60;
+
+    let crops = isRain ? info.rain : info.dry;
+    let advice = isRain 
+      ? `Mvua inanyesha / inakuja (${rainProb}% chance). Muda mzuri wa kupanda!` 
+      : `Hakuna mvua sasa (${rainProb}% chance). Kavu. Usipande mazao ya maji mengi.`;
+
+    let cls = isRain ? 'rain' : 'dry';
+    let icon = isRain ? '☔ MVUA - Panda Sasa!' : '☀️ KAVU / JUA - Panda Mazao ya Ukame';
+    let list = crops.map(x => `<li>${x}</li>`).join('');
+
+    box.innerHTML = `
+      <div class="weather-box ${cls}">${icon}<br>${c} - ${temp}°C<br><span class="small" style="color:inherit;">Chance ya Mvua Leo: ${rainProb}% • Live</span></div>
+      <div class="grow"><b>🌱 Cha Kupanda Leo ${c}:</b><ul>${list}</ul></div>
+      <div class="warn"><b>💡 Ushauri:</b> ${advice}<br><br>Ukishapanda, tumia <b>ShambaSmart Scan</b> kuangalia kama crop yako iko GOOD au BAD.</div>
+    `;
+  } catch(e){
+    // Fallback if no internet - use smart guess
+    let crops = info.rain;
+    box.innerHTML = `<div class="weather-box rain">🌦️ ${c} - Angalia Anga<br><span class="small">No Internet - Tumia hii:</span></div><div class="grow"><b>🌱 Cha Kupanda:</b><ul>${crops.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
   }
-  localStorage.setItem("shamba_role",role);
-}
-function verifyPayment(){
-  let code=document.getElementById("mpesaCode").value.trim().toUpperCase();
-  if(code.length<5){alert("Enter correct M-Pesa Code. Example QK123ABC");return;}
-  let used=JSON.parse(localStorage.getItem("used_codes")||"[]");
-  if(used.includes(code)){alert("This M-Pesa Code already used! Use a new payment.");return;}
-  used.push(code); localStorage.setItem("used_codes",JSON.stringify(used));
-  let now=new Date().getTime();
-  let expiry=now+(12*60*60*1000);
-  localStorage.setItem("scan_expiry",expiry);
-  localStorage.setItem("scan_paid","yes");
-  let payments=JSON.parse(localStorage.getItem("admin_payments")||"[]");
-  let user=JSON.parse(localStorage.getItem("shamba_user")||"{}");
-  payments.unshift({phone:user.phone||"Unknown",name:user.name||"Farmer from Scan",crop:"Scan Payment",code:code,time:new Date().toLocaleString(),expiry:expiry,expiryStr:new Date(expiry).toLocaleString()});
-  localStorage.setItem("admin_payments",JSON.stringify(payments));
-  alert("Payment received! You have 12 hours scanning. Starts now!");
-  checkPayment();
-}
-function checkPayment(){
-  let expiry=localStorage.getItem("scan_expiry");
-  if(!expiry) return;
-  let now=new Date().getTime();
-  if(now<parseInt(expiry)){
-    document.getElementById("payWall").classList.add("hidden");
-    document.getElementById("scanArea").classList.remove("hidden");
-    startTimer();
-  } else {
-    document.getElementById("payWall").classList.remove("hidden");
-    document.getElementById("scanArea").classList.add("hidden");
-    alert("Your 12 hours finished! Pay 100 KES again to 0725731494.");
-  }
-}
-function startTimer(){
-  setInterval(()=>{
-    let expiry=parseInt(localStorage.getItem("scan_expiry"));
-    let now=new Date().getTime();
-    let diff=expiry-now;
-    if(diff<=0){location.reload();return;}
-    let h=Math.floor(diff/(1000*60*60));
-    let m=Math.floor((diff%(1000*60*60))/(1000*60));
-    let s=Math.floor((diff%(1000*60))/1000);
-    document.getElementById("timer").innerHTML=`⏰ Time Left: ${h}h ${m}m ${s}s - Pay 100 to 0725731494 to extend`;
-  },1000);
-}
-function previewPhoto(e){
-  let file=e.target.files[0];
-  let reader=new FileReader();
-  reader.onload=function(){
-    let img=document.getElementById("preview");
-    img.src=reader.result; img.style.display="block";
-  };
-  reader.readAsDataURL(file);
-}
-function scanCrop(){
-  let crop=document.getElementById("cropSelect").value;
-  let photo=document.getElementById("cropPhoto").files[0];
-  if(!crop){alert("Please select crop first!");return;}
-  if(!photo){alert("Please upload photo first!");return;}
-  let img=document.getElementById("preview");
-  let canvas=document.createElement("canvas");
-  let ctx=canvas.getContext("2d");
-  canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
-  ctx.drawImage(img,0,0);
-  let data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
-  let green=0,yellowBrown=0;
-  for(let i=0;i<data.length;i+=100){
-    let r=data[i],g=data[i+1],b=data[i+2];
-    if(g>r && g>b && g>80) green++;
-    else if(r>100 && g>80 && b<100) yellowBrown++;
-  }
-  let total=green+yellowBrown||1;
-  let health=Math.round((green/total)*100);
-  if(health>100) health=92;
-  let info=treatmentBook[crop]||treatmentBook["default"];
-  let resultDiv=document.getElementById("result");
-  let isGood=health>65;
-  if(isGood){
-    resultDiv.innerHTML=`<div class="result-good"><h3>✅ GOOD - ${crop} is Healthy!</h3><p>Health Score: ${health}%</p><p>Your ${crop} looks good. Keep watering, weeding and applying manure.</p></div>`;
-  } else {
-    resultDiv.innerHTML=`<div class="result-bad"><h3>❌ BAD - ${crop} Needs Treatment!</h3><p>Health Score: ${health}%</p><p><b>Possible Problem:</b> ${info.disease}</p><p><b>Treatment:</b><br>${info.treatment}</p><p><b>Action:</b> Go to agrovet with this photo.</p></div>`;
-  }
-  let scans=JSON.parse(localStorage.getItem("admin_scans")||"[]");
-  scans.unshift({crop:crop,result:isGood?"GOOD ✅":"BAD ❌",time:new Date().toLocaleString()});
-  localStorage.setItem("admin_scans",JSON.stringify(scans));
-  resultDiv.scrollIntoView({behavior:"smooth"});
-}
-window.onload=function(){
-  let saved=localStorage.getItem("shamba_role");
-  if(saved) setRole(saved);
 }
 </script>
 </body>
