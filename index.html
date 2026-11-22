@@ -39,7 +39,7 @@ select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px s
   <button class="tab" onclick="show('scan',this)">🌱 Scan FREE</button>
 </div>
 
-<!-- 1. WEATHER - FREE FOR EVERYONE -->
+<!-- 1. WEATHER - FREE -->
 <div id="weather">
   <div class="card" style="border:2px solid #1565c0;">
     <h2>🌦️ FREE Weather Alert - 47 Counties</h2>
@@ -54,7 +54,7 @@ select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px s
 <!-- 2. REGISTER - 100 -->
 <div id="register" class="hidden">
   <div class="card">
-    <h2>👨‍🌾 1. Jisajili - KES 100 Tu!</h2>
+    <h2>👨‍🌾 Jisajili - KES 100 Tu!</h2>
     <p style="font-size:14px; line-height:1.6;">Lipa <b>KES 100</b> mara moja, upate:<br>✅ Uza kwa <b>Soko Direct</b><br>✅ <b>Free Scanning</b> - BURE kabisa!<br>✅ Weather Alert kila siku</p><br>
     <div class="pay-box"><b>Hatua ya Kulipa:</b><br>1. M-Pesa -> Send Money<br>2. Kwa <span class="badge">0725731494</span> - Amount <b>100</b><br>3. Weka M-Pesa Code hapa chini</div><br>
     <input id="rName" placeholder="Jina Kamili">
@@ -88,7 +88,7 @@ select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px s
   </div>
 </div>
 
-<!-- 4. SCAN - FREE AFTER REGISTER -->
+<!-- 4. SCAN - FREE -->
 <div id="scan" class="hidden">
   <div class="card">
     <h2>🌱 Scan - FREE Kwa Waliojisajili</h2>
@@ -101,31 +101,23 @@ select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px s
   </div>
 </div>
 
-<div class="footer">ShambaSmart • M-Pesa: 0725731494 • Weather BURE • Register 100 • Soko 2%<br>© 2026 - feysal...github.io/shambasmart</div>
+<div class="footer">ShambaSmart • M-Pesa: 0725731494 • Weather BURE • Register 100 • Soko 2%<br>© 2026</div>
 
 <script>
 function show(id, btn){ document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); ['weather','register','soko','scan'].forEach(x=>document.getElementById(x).classList.toggle('hidden', x!==id)); }
 let isRegistered = localStorage.getItem('shamba_registered') === 'yes';
 if(isRegistered){ document.getElementById('scanStatus').innerHTML = '✅ <b>Umesajiliwa!</b> Unaweza ku-scan BURE sasa.'; }
-
-// WEATHER - 47 COUNTIES
 const coords = {"Mombasa":[-4.0435,39.6682],"Kwale":[-4.1814,39.4606],"Kilifi":[-3.5107,39.9093],"Tana River":[-1.5,40],"Lamu":[-2.2717,40.902],"Taita-Taveta":[-3.3161,38.4842],"Garissa":[-0.4532,39.646],"Wajir":[1.7471,40.0589],"Mandera":[3.9167,41.8333],"Marsabit":[2.3284,37.9899],"Isiolo":[0.3556,37.5833],"Meru":[0.0477,37.6491],"Tharaka-Nithi":[-0.3,37.9],"Embu":[-0.5333,37.45],"Kitui":[-1.3667,38.0167],"Machakos":[-1.5167,37.2667],"Makueni":[-1.8,37.6167],"Nyandarua":[-0.5333,36.6167],"Nyeri":[-0.4201,36.9476],"Kirinyaga":[-0.5,37.3],"Murang'a":[-0.7167,36.7833],"Kiambu":[-1.1714,36.8356],"Turkana":[3.1191,35.597],"West Pokot":[1.25,35.1],"Samburu":[0.55,37.5],"Trans Nzoia":[1.0167,35],"Uasin Gishu":[0.5167,35.2833],"Elgeyo-Marakwet":[0.85,35.5],"Nandi":[0.1833,35.1],"Baringo":[0.4667,35.9667],"Laikipia":[0.0167,36.8],"Nakuru":[-0.3031,36.08],"Narok":[-1.0833,36.95],"Kajiado":[-1.85,36.7833],"Kericho":[-0.3667,35.2833],"Bomet":[-0.7833,35.3333],"Kakamega":[0.0833,34.7667],"Vihiga":[0.0833,34.7167],"Bungoma":[0.5667,34.5667],"Busia":[0.4667,34.1117],"Siaya":[0.0611,34.2881],"Kisumu":[-0.0917,34.768],"Homa Bay":[-0.5273,34.4571],"Migori":[-1.0634,34.4731],"Kisii":[-0.6773,34.7796],"Nyamira":[-0.5667,34.9333],"Nairobi":[-1.2921,36.8219]};
 const sel = document.getElementById('alertCounty'); Object.keys(coords).sort().forEach(c=>{ let o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
 async function checkAlert(){ let c=sel.value; let box=document.getElementById('alertBox'); if(!c){ box.innerHTML=''; return; } box.innerHTML='⏳ Inatafuta Live Weather ya '+c+'...'; let [lat,lon]=coords[c]; try{ let res=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,weather_code&daily=precipitation_probability_max&timezone=Africa%2FNairobi`); let j=await res.json(); let temp=Math.round(j.current.temperature_2m); let code=j.current.weather_code; let rainProb=j.daily.precipitation_probability_max[0]; let precip=j.current.precipitation; let isRain=(code>=51&&code<=67)||(code>=80&&code<=82)||(code>=95&&code<=99)||precip>0||rainProb>60; if(isRain){ box.innerHTML=`<div style="background:#e3f2fd; color:#1565c0; padding:16px; border-radius:12px; margin-top:12px; text-align:center; font-weight:800; line-height:1.5;">☔ ALERT! MVUA ${c} - ${temp}°C<br>Chance ya Mvua: ${rainProb}%<br>✅ PANDA SASA! Wakati mzuri wa kupanda Maize, Beans, Potatoes</div>`; } else { box.innerHTML=`<div style="background:#fff3e0; color:#e65100; padding:16px; border-radius:12px; margin-top:12px; text-align:center; font-weight:800; line-height:1.5;">☀️ HAKUNA MVUA ${c} - ${temp}°C<br>Chance ya Mvua: ${rainProb}%<br>⛔ USIPANDE Maize Leo! Itakauka.<br>✅ Panda Sorghum, Cassava, Cowpeas</div>`; } localStorage.setItem('shamba_alert_county', c); }catch(e){ box.innerHTML='Angalia anga la '+c; } }
 function enableAlert(){ let c=sel.value; if(!c){ alert('Chagua County kwanza!'); return; } alert('✅ Asante! Utapata Free Weather Alert ya '+c+' kila siku.'); if("Notification" in window){ Notification.requestPermission(); } }
 window.addEventListener('load', ()=>{ let saved=localStorage.getItem('shamba_alert_county'); if(saved){ sel.value=saved; checkAlert(); } });
-
-// REGISTER 100
 function registerPay(){ let n=document.getElementById('rName').value, ph=document.getElementById('rPhone').value, code=document.getElementById('rCode').value; if(!n||!ph||!code){ alert('Jaza Jina, Simu na M-Pesa Code'); return; } if(code.length<5){ alert('M-Pesa Code sio sahihi'); return; } isRegistered=true; localStorage.setItem('shamba_registered','yes'); let users=JSON.parse(localStorage.getItem('shamba_users')||'[]'); users.push({name:n, phone:ph, county:document.getElementById('rCounty').value, crop:document.getElementById('rCrop').value, code:code, date:new Date().toLocaleDateString()}); localStorage.setItem('shamba_users', JSON.stringify(users)); document.getElementById('regMsg').innerHTML='✅ Karibu '+n+'! Umesajiliwa! Sasa unaweza kuuza Sokoni na ku-scan BURE!'; document.getElementById('scanStatus').innerHTML='✅ <b>Umesajiliwa!</b> Unaweza ku-scan BURE sasa.'; alert('Hongera '+n+'! Umesajiliwa. Sasa unaweza ku-scan BURE na kuuza Sokoni!'); }
-
-// SOKO 2%
 function calcCommission(){ let price=parseFloat(document.getElementById('sPrice').value)||0; if(price>0){ let myShare=Math.round(price*0.02); let keep=price-myShare; document.getElementById('commBox').style.display='block'; document.getElementById('salePrice').innerText=price.toLocaleString(); document.getElementById('myShare').innerText=myShare.toLocaleString(); document.getElementById('youKeep').innerText=keep.toLocaleString(); } }
 let products=[{name:"Maize - 10 Gunia", price:"3,500", county:"Kwale", seller:"Mzee Juma", phone:"0722000111"}];
 function renderSoko(){ document.getElementById('sokoList').innerHTML=products.map(p=>`<div style="border-bottom:1px solid #eee; padding:10px 0;"><b>${p.name}</b><br>KES ${p.price} • 📍 ${p.county} • ${p.seller}<br><a href="tel:${p.phone}" style="color:#1a7a2e; font-weight:700;">📞 Piga</a> | <a href="https://wa.me/254${p.phone.substring(1)}" style="color:#25D366; font-weight:700;">💬 WhatsApp</a></div>`).join(''); }
 function postSoko(){ if(!isRegistered){ alert('Tafadhali Jisajili Kwanza - Lipa 100 kwenye tab ya Join 100!'); show('register', document.querySelectorAll('.tab')[1]); return; } let crop=document.getElementById('sCrop').value, price=document.getElementById('sPrice').value; if(!crop||!price){ alert('Weka bidhaa na bei'); return; } let myShare=Math.round(price*0.02); products.unshift({name:crop, price:price, county:document.getElementById('sCounty').value||'Kenya', seller:document.getElementById('rName').value||'Mkulima', phone:document.getElementById('sPhone').value||'0725731494'}); renderSoko(); document.getElementById('sokoMsg').innerHTML='✅ Bidhaa imewekwa Sokoni! Ukisha uza, tuma KES '+myShare+' (2%) kwa 0725731494'; alert('Bidhaa imewekwa! Ukisha uza, tuma KES '+myShare+' kwa 0725731494'); }
 renderSoko();
-
-// SCAN FREE
 function doScan(){ if(!isRegistered){ alert('Scan ni BURE kwa waliojisajili tu. Lipa 100 kwanza!'); show('register', document.querySelectorAll('.tab')[1]); return; } let crop=document.getElementById('scanCrop').value, prob=document.getElementById('scanProblem').value; document.getElementById('scanResult').innerHTML=`<div style="background:#e8f5e9; padding:14px; border-radius:12px; margin-top:12px; line-height:1.6;"><b>🌱 Matokeo ya Scan - ${crop}</b><br>Shida: ${prob}<br>✅ Dawa: Tumia Neem + maji, nyunyiza asubuhi na jioni siku 3. Kama ni Yellow leaves, weka mbolea ya CAN. Kama wadudu, tumia Actellic.</div>`; }
 </script>
 </body>
