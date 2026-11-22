@@ -1,125 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShambaSmart - All In One</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-body { background: #f0f7f0; padding: 16px; padding-bottom: 40px; }
-.top { text-align: center; margin: 14px 0 18px; }
-.top h1 { font-size: 32px; color: #1a7a2e; }
-.top p { font-size: 14px; color: #555; margin-top: 6px; }
-.tabs { display: flex; gap: 6px; margin-bottom: 14px; position: sticky; top: 8px; z-index: 10; }
-.tab { flex: 1; padding: 11px 4px; border-radius: 12px; border: 2px solid #1a7a2e; background: white; color: #1a7a2e; font-weight: 800; font-size: 13px; cursor: pointer; }
-.tab.active { background: #1a7a2e; color: white; }
-.card { background: white; border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-.card h2 { font-size: 19px; color: #1a7a2e; margin-bottom: 10px; }
-.btn { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #1a7a2e; background: white; color: #1a7a2e; font-size: 15px; font-weight: 700; margin-bottom: 8px; cursor: pointer; }
-.btn.active { background: #1a7a2e; color: white; }
-select, input { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #ddd; font-size: 15px; margin-bottom: 10px; }
-.pay-box { background: #fff8e1; border-radius: 12px; padding: 14px; font-size: 14px; line-height: 1.6; }
-.number { background: #e8f5e9; padding: 3px 8px; border-radius: 6px; font-weight: 800; color: #1a7a2e; }
-.unlock { width: 100%; background: #111; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; }
-.weather-box { text-align: center; padding: 14px; border-radius: 12px; margin-top: 10px; font-weight: 800; }
-.rain { background: #e3f2fd; color: #1565c0; }
-.dry { background: #fff3e0; color: #e65100; }
-.grow { background: #e8f5e9; border-radius: 12px; padding: 12px; margin-top: 10px; font-size: 14px; line-height: 1.6; }
-.item { display: flex; gap: 10px; }
-.item .emoji { font-size: 36px; background: #f0f7f0; width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.price { color: #1a7a2e; font-weight: 800; }
-.btns { display: flex; gap: 8px; margin-top: 8px; }
-.call { flex: 1; background: #1a7a2e; color: white; text-align: center; padding: 11px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; }
-.wa { flex: 1; background: #25D366; color: white; text-align: center; padding: 11px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; }
-.hidden { display: none; }
-.footer { text-align: center; font-size: 13px; color: #888; margin-top: 10px; }
-</style>
-</head>
-<body>
-<div class="top">
-  <h1>🌱 ShambaSmart</h1>
-  <p><b>Scan • Weather • Soko • Register</b><br>All In One - 47 Counties</p>
-</div>
+<!-- FREE WEATHER ALERT - FOR EVERYONE - 47 COUNTIES -->
+<div class="card" style="border: 2px solid #1565c0;">
+  <h2>🌦️ FREE Weather Alert - 47 Counties</h2>
+  <p style="font-size:14px; line-height:1.5; color:#555;">
+  BURE Kabisa! Chagua County yako, ujue kama kunanyesha leo - Panda au Usipande?
+  </p>
+  <br>
+  <select id="alertCounty" onchange="checkAlert()">
+    <option value="">-- Chagua County Yako --</option>
+    <option>Mombasa</option><option>Kwale</option><option>Kilifi</option>
+    <option>Tana River</option><option>Lamu</option><option>Taita-Taveta</option>
+    <option>Garissa</option><option>Wajir</option><option>Mandera</option>
+    <option>Marsabit</option><option>Isiolo</option><option>Meru</option>
+    <option>Tharaka-Nithi</option><option>Embu</option><option>Kitui</option>
+    <option>Machakos</option><option>Makueni</option><option>Nyandarua</option>
+    <option>Nyeri</option><option>Kirinyaga</option><option>Murang'a</option>
+    <option>Kiambu</option><option>Turkana</option><option>West Pokot</option>
+    <option>Samburu</option><option>Trans Nzoia</option><option>Uasin Gishu</option>
+    <option>Elgeyo-Marakwet</option><option>Nandi</option><option>Baringo</option>
+    <option>Laikipia</option><option>Nakuru</option><option>Narok</option>
+    <option>Kajiado</option><option>Kericho</option><option>Bomet</option>
+    <option>Kakamega</option><option>Vihiga</option><option>Bungoma</option>
+    <option>Busia</option><option>Siaya</option><option>Kisumu</option>
+    <option>Homa Bay</option><option>Migori</option><option>Kisii</option>
+    <option>Nyamira</option><option>Nairobi</option>
+  </select>
 
-<div class="tabs">
-  <button class="tab active" onclick="show('scan',this)">🌱 Scan</button>
-  <button class="tab" onclick="show('weather',this)">🌦️ Weather</button>
-  <button class="tab" onclick="show('soko',this)">🛒 Soko</button>
-  <button class="tab" onclick="show('register',this)">👨‍🌾 Join</button>
-</div>
+  <div id="alertBox"></div>
 
-<!-- SCAN -->
-<div id="scan">
-  <div class="card">
-    <h2>1. Who Are You?</h2>
-    <button class="btn active" onclick="setRole(this,'Supplier')">🚜 Supplier - I Grow In Shamba</button>
-    <button class="btn" onclick="setRole(this,'Seller')">🛒 Seller - I Buy & Sell In Market</button>
-    <p style="text-align:center; font-size:14px;">You are <b id="roleText">Supplier</b></p>
-  </div>
-  <div class="card">
-    <h2>2. Pay To Unlock Scan</h2>
-    <div class="pay-box"><b>🔒 Scan Locked - KES 100 = 12 Hours</b><br><br>
-    1. M-Pesa -> Send Money<br>
-    2. Send KES 100 to <span class="number">0725731494</span><br>
-    3. Enter M-Pesa Code below</div>
-    <input id="code" placeholder="Enter M-Pesa Code e.g. QK7X123ABC">
-    <button class="unlock" onclick="unlock()">✅ I Have Paid - Unlock Scan</button>
-  </div>
+  <button onclick="enableAlert()" style="width:100%; background:#1565c0; color:white; border:none; padding:14px; border-radius:12px; font-weight:800; margin-top:10px;">
+    🔔 Pata Free Alert Kila Siku
+  </button>
+  <p style="font-size:12px; color:#888; text-align:center; margin-top:8px;">Tutakutumia alert simu yako ikinyesha kwenye County yako</p>
 </div>
-
-<!-- WEATHER -->
-<div id="weather" class="hidden">
-  <div class="card">
-    <h2>🌦️ County Weather - Live</h2>
-    <select id="county" onchange="checkWeather()"><option value="">-- Chagua County --</option></select>
-    <div id="wResult"></div>
-  </div>
-  <div class="card"><p style="font-size:14px; line-height:1.6;"><b>☔ Kama Mvua:</b> Maize, Beans, Potatoes, Cabbage, Rice<br><b>☀️ Kama Kavu:</b> Sorghum, Millet, Cassava, Cowpeas, Green Grams</p></div>
-</div>
-
-<!-- SOKO -->
-<div id="soko" class="hidden">
-  <div class="card">
-    <h2>🛒 Soko Direct - Nunua</h2>
-    <select id="filterCrop" onchange="renderSoko()"><option value="All">Mazao Yote</option><option value="Maize">Maize</option><option value="Potatoes">Potatoes</option><option value="Cabbage">Cabbage</option><option value="Tomatoes">Tomatoes</option><option value="Onions">Onions</option><option value="Bananas">Bananas</option><option value="Avocado">Avocado</option></select>
-    <div id="sokoList"></div>
-  </div>
-  <div class="card">
-    <h2>📦 Uza Bidhaa Yako - BURE</h2>
-    <input id="sName" placeholder="Jina Lako"><input id="sPhone" placeholder="Simu e.g. 0725731494"><input id="sCrop" placeholder="Zao e.g. Maize 10 Gunia"><input id="sPrice" placeholder="Bei e.g. 3500 per Gunia"><input id="sCounty" placeholder="County e.g. Kisumu">
-    <button class="unlock" onclick="postItem()">✅ Weka Sokoni Sasa</button>
-  </div>
-</div>
-
-<!-- REGISTER -->
-<div id="register" class="hidden">
-  <div class="card">
-    <h2>👨‍🌾 Jisajili - BURE!</h2>
-    <p style="font-size:14px; color:#555; margin-bottom:10px;">Jiunge na ShambaSmart, upate updates za weather na soko.</p>
-    <input id="rName" placeholder="Jina Kamili"><input id="rPhone" placeholder="Namba ya Simu"><input id="rCounty" placeholder="County Yako"><input id="rCrop" placeholder="Unapanda Nini? e.g. Maize">
-    <button class="unlock" style="background:#1a7a2e;" onclick="register()">✅ Jisajili Sasa</button>
-    <p id="regMsg" style="text-align:center; margin-top:10px; font-weight:700; color:#1a7a2e;"></p>
-  </div>
-</div>
-
-<div class="footer">ShambaSmart • M-Pesa: 0725731494 • © 2026</div>
 
 <script>
-function show(id, btn){ document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); ['scan','weather','soko','register'].forEach(x=>document.getElementById(x).classList.toggle('hidden', x!==id)); }
-function setRole(btn, role){ document.querySelectorAll('#scan .btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.getElementById('roleText').innerText=role; }
-function unlock(){ let c=document.getElementById('code').value.trim(); if(c.length<5){ alert('Weka M-Pesa Code'); return; } alert('Asante! Code '+c+' received. Scan unlocked for 12 Hours!'); }
+// Coordinates for 47 Counties - for Live Weather
+const alertCoords = {
+  "Mombasa":[-4.0435,39.6682],"Kwale":[-4.1814,39.4606],"Kilifi":[-3.5107,39.9093],
+  "Tana River":[-1.5,40],"Lamu":[-2.2717,40.902],"Taita-Taveta":[-3.3161,38.4842],
+  "Garissa":[-0.4532,39.646],"Wajir":[1.7471,40.0589],"Mandera":[3.9167,41.8333],
+  "Marsabit":[2.3284,37.9899],"Isiolo":[0.3556,37.5833],"Meru":[0.0477,37.6491],
+  "Tharaka-Nithi":[-0.3,37.9],"Embu":[-0.5333,37.45],"Kitui":[-1.3667,38.0167],
+  "Machakos":[-1.5167,37.2667],"Makueni":[-1.8,37.6167],"Nyandarua":[-0.5333,36.6167],
+  "Nyeri":[-0.4201,36.9476],"Kirinyaga":[-0.5,37.3],"Murang'a":[-0.7167,36.7833],
+  "Kiambu":[-1.1714,36.8356],"Turkana":[3.1191,35.597],"West Pokot":[1.25,35.1],
+  "Samburu":[0.55,37.5],"Trans Nzoia":[1.0167,35],"Uasin Gishu":[0.5167,35.2833],
+  "Elgeyo-Marakwet":[0.85,35.5],"Nandi":[0.1833,35.1],"Baringo":[0.4667,35.9667],
+  "Laikipia":[0.0167,36.8],"Nakuru":[-0.3031,36.08],"Narok":[-1.0833,36.95],
+  "Kajiado":[-1.85,36.7833],"Kericho":[-0.3667,35.2833],"Bomet":[-0.7833,35.3333],
+  "Kakamega":[0.0833,34.7667],"Vihiga":[0.0833,34.7167],"Bungoma":[0.5667,34.5667],
+  "Busia":[0.4667,34.1117],"Siaya":[0.0611,34.2881],"Kisumu":[-0.0917,34.768],
+  "Homa Bay":[-0.5273,34.4571],"Migori":[-1.0634,34.4731],"Kisii":[-0.6773,34.7796],
+  "Nyamira":[-0.5667,34.9333],"Nairobi":[-1.2921,36.8219]
+};
 
-// WEATHER - 47 Counties
-const counties = { "Mombasa":{lat:-4.0435,lon:39.6682,rain:["Cassava","Mchicha","Coconut"],dry:["Cassava","Cowpeas","Sweet Potatoes"]}, "Kwale":{lat:-4.1814,lon:39.4606,rain:["Maize","Cassava","Bananas"],dry:["Cassava","Cowpeas","Green Grams"]}, "Kilifi":{lat:-3.5107,lon:39.9093,rain:["Maize","Cassava","Mangoes"],dry:["Cassava","Cowpeas","Watermelon"]}, "Tana River":{lat:-1.5,lon:40,rain:["Rice","Maize","Bananas"],dry:["Sorghum","Millet","Cowpeas"]}, "Lamu":{lat:-2.2717,lon:40.902,rain:["Maize","Coconut","Cassava"],dry:["Cassava","Coconut","Cowpeas"]}, "Taita-Taveta":{lat:-3.3161,lon:38.4842,rain:["Maize","Beans","Bananas"],dry:["Sorghum","Green Grams","Cowpeas"]}, "Garissa":{lat:-0.4532,lon:39.646,rain:["Sorghum","Maize","Watermelon"],dry:["Sorghum","Watermelon","Cowpeas"]}, "Wajir":{lat:1.7471,lon:40.0589,rain:["Sorghum","Maize"],dry:["Sorghum","Millet","Cowpeas"]}, "Mandera":{lat:3.9167,lon:41.8333,rain:["Sorghum","Maize"],dry:["Sorghum","Millet","Cowpeas"]}, "Marsabit":{lat:2.3284,lon:37.9899,rain:["Maize","Beans"],dry:["Sorghum","Millet","Cowpeas"]}, "Isiolo":{lat:0.3556,lon:37.5833,rain:["Maize","Beans"],dry:["Sorghum","Cowpeas","Green Grams"]}, "Meru":{lat:0.0477,lon:37.6491,rain:["Maize","Potatoes","Bananas"],dry:["Sorghum","Cowpeas","Sweet Potatoes"]}, "Tharaka-Nithi":{lat:-0.3,lon:37.9,rain:["Maize","Beans"],dry:["Sorghum","Millet","Green Grams"]}, "Embu":{lat:-0.5333,lon:37.45,rain:["Maize","Beans","Bananas"],dry:["Green Grams","Cowpeas","Sorghum"]}, "Kitui":{lat:-1.3667,lon:38.0167,rain:["Maize","Beans","Green Grams"],dry:["Green Grams","Cowpeas","Sorghum"]}, "Machakos":{lat:-1.5167,lon:37.2667,rain:["Maize","Beans","Green Grams"],dry:["Green Grams","Cowpeas","Sorghum"]}, "Makueni":{lat:-1.8,lon:37.6167,rain:["Maize","Beans","Mangoes"],dry:["Green Grams","Cowpeas","Sorghum"]}, "Nyandarua":{lat:-0.5333,lon:36.6167,rain:["Potatoes","Cabbage","Carrots"],dry:["Potatoes","Cabbage","Onions"]}, "Nyeri":{lat:-0.4201,lon:36.9476,rain:["Maize","Potatoes","Tea"],dry:["Potatoes","Cabbage","Onions"]}, "Kirinyaga":{lat:-0.5,lon:37.3,rain:["Rice","Maize","Beans"],dry:["Green Grams","Cowpeas","Sweet Potatoes"]}, "Murang'a":{lat:-0.7167,lon:36.7833,rain:["Maize","Beans","Bananas"],dry:["Sweet Potatoes","Cowpeas","Green Grams"]}, "Kiambu":{lat:-1.1714,lon:36.8356,rain:["Maize","Cabbage","Kales"],dry:["Cabbage","Kales","Onions"]}, "Turkana":{lat:3.1191,lon:35.597,rain:["Sorghum","Maize"],dry:["Sorghum","Millet","Watermelon"]}, "West Pokot":{lat:1.25,lon:35.1,rain:["Maize","Beans","Sorghum"],dry:["Sorghum","Millet","Cowpeas"]}, "Samburu":{lat:0.55,lon:37.5,rain:["Maize","Beans"],dry:["Sorghum","Millet","Cowpeas"]}, "Trans Nzoia":{lat:1.0167,lon:35,rain:["Maize","Beans","Sunflower"],dry:["Sunflower","Sorghum","Cowpeas"]}, "Uasin Gishu":{lat:0.5167,lon:35.2833,rain:["Maize","Wheat","Barley"],dry:["Wheat","Sorghum","Sunflower"]}, "Elgeyo-Marakwet":{lat:0.85,lon:35.5,rain:["Maize","Potatoes"],dry:["Millet","Sorghum","Sweet Potatoes"]}, "Nandi":{lat:0.1833,lon:35.1,rain:["Maize","Tea","Beans"],dry:["Tea","Sweet Potatoes","Sorghum"]}, "Baringo":{lat:0.4667,lon:35.9667,rain:["Maize","Beans"],dry:["Sorghum","Millet","Cowpeas"]}, "Laikipia":{lat:0.0167,lon:36.8,rain:["Maize","Wheat","Beans"],dry:["Wheat","Sorghum","Sunflower"]}, "Nakuru":{lat:-0.3031,lon:36.08,rain:["Maize","Potatoes","Cabbage"],dry:["Wheat","Potatoes","Onions"]}, "Narok":{lat:-1.0833,lon:36.95,rain:["Maize","Wheat","Beans"],dry:["Wheat","Sorghum","Barley"]}, "Kajiado":{lat:-1.85,lon:36.7833,rain:["Maize","Beans","Tomatoes"],dry:["Sorghum","Cowpeas","Onions"]}, "Kericho":{lat:-0.3667,lon:35.2833,rain:["Tea","Maize","Beans"],dry:["Tea","Sweet Potatoes","Sorghum"]}, "Bomet":{lat:-0.7833,lon:35.3333,rain:["Tea","Maize","Beans"],dry:["Tea","Sweet Potatoes","Sorghum"]}, "Kakamega":{lat:0.0833,lon:34.7667,rain:["Maize","Beans","Bananas"],dry:["Sugarcane","Bananas","Sweet Potatoes"]}, "Vihiga":{lat:0.0833,lon:34.7167,rain:["Maize","Beans","Bananas"],dry:["Bananas","Sweet Potatoes","Cassava"]}, "Bungoma":{lat:0.5667,lon:34.5667,rain:["Maize","Beans","Sugarcane"],dry:["Sugarcane","Bananas","Sweet Potatoes"]}, "Busia":{lat:0.4667,lon:34.1117,rain:["Maize","Beans","Cassava"],dry:["Cassava","Groundnuts","Sweet Potatoes"]}, "Siaya":{lat:0.0611,lon:34.2881,rain:["Maize","Beans","Sorghum"],dry:["Sorghum","Cassava","Sweet Potatoes"]}, "Kisumu":{lat:-0.0917,lon:34.768,rain:["Maize","Beans","Rice"],dry:["Rice","Sorghum","Sweet Potatoes"]}, "Homa Bay":{lat:-0.5273,lon:34.4571,rain:["Maize","Beans","Sorghum"],dry:["Sorghum","Cassava","Sweet Potatoes"]}, "Migori":{lat:-1.0634,lon:34.4731,rain:["Maize","Beans","Bananas"],dry:["Sugarcane","Bananas","Cassava"]}, "Kisii":{lat:-0.6773,lon:34.7796,rain:["Maize","Beans","Bananas"],dry:["Bananas","Tea","Sweet Potatoes"]}, "Nyamira":{lat:-0.5667,lon:34.9333,rain:["Maize","Beans","Bananas"],dry:["Bananas","Tea","Sweet Potatoes"]}, "Nairobi":{lat:-1.2921,lon:36.8219,rain:["Maize","Kales","Spinach"],dry:["Kales","Spinach","Onions"]} };
-const sel=document.getElementById('county'); Object.keys(counties).sort().forEach(c=>{ let o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
-async function checkWeather(){ let c=sel.value; let box=document.getElementById('wResult'); if(!c){ box.innerHTML=''; return; } box.innerHTML='⏳ Inatafuta Live Weather ya '+c+'...'; let info=counties[c]; try{ let res=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${info.lat}&longitude=${info.lon}&current=temperature_2m,precipitation,weather_code&daily=precipitation_probability_max&timezone=Africa%2FNairobi`); let j=await res.json(); let temp=Math.round(j.current.temperature_2m); let code=j.current.weather_code; let rainProb=j.daily.precipitation_probability_max[0]; let precip=j.current.precipitation; let isRain=(code>=51&&code<=67)||(code>=80&&code<=82)||(code>=95&&code<=99)||precip>0||rainProb>60; let crops=isRain?info.rain:info.dry; box.innerHTML=`<div class="weather-box ${isRain?'rain':'dry'}">${isRain?'☔ MVUA - Panda Sasa!':'☀️ KAVU / JUA'}<br>${c} - ${temp}°C - Mvua: ${rainProb}%</div><div class="grow"><b>🌱 Cha Kupanda Leo:</b> ${crops.join(', ')}</div>`; }catch(e){ box.innerHTML=`<div class="grow"><b>🌱 Cha Kupanda ${c}:</b> ${info.rain.join(', ')}</div>`; } }
+async function checkAlert(){
+  let c = document.getElementById('alertCounty').value;
+  let box = document.getElementById('alertBox');
+  if(!c){ box.innerHTML=''; return; }
+  box.innerHTML = '⏳ Inatafuta Live Weather ya ' + c + '...';
+  let [lat, lon] = alertCoords[c];
+  try {
+    let res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,weather_code&daily=precipitation_probability_max&timezone=Africa%2FNairobi`);
+    let j = await res.json();
+    let temp = Math.round(j.current.temperature_2m);
+    let code = j.current.weather_code;
+    let rainProb = j.daily.precipitation_probability_max[0];
+    let precip = j.current.precipitation;
+    let isRain = (code>=51 && code<=67) || (code>=80 && code<=82) || (code>=95 && code<=99) || precip > 0 || rainProb > 60;
 
-// SOKO
-let products=[ {emoji:"🌽",name:"Maize - 20 Gunia",price:"KES 3,500 / Gunia",county:"Eldoret",crop:"Maize",seller:"Mzee Kiprop",phone:"0722000111",desc:"Maize mpya, kavu."}, {emoji:"🥔",name:"Potatoes - 10 Mifuko",price:"KES 2,000 / Mfuko",county:"Nakuru",crop:"Potatoes",seller:"Mama Wanjiku",phone:"0722000222",desc:"Viazi safi za Nakuru."}, {emoji:"🍅",name:"Nyanya - 20 Crates",price:"KES 1,200 / Crate",county:"Machakos",crop:"Tomatoes",seller:"Mutiso",phone:"0722000444",desc:"Nyanya nyekundu."}, {emoji:"🥑",name:"Parachichi - 100 Pcs",price:"KES 30 / Pc",county:"Murang'a",crop:"Avocado",seller:"Njeri",phone:"0722000777",desc:"Avocado Hass."} ];
-function renderSoko(){ let f=document.getElementById('filterCrop').value; let list=document.getElementById('sokoList'); let filtered=products.filter(p=>f==="All"||p.crop===f); list.innerHTML=filtered.map(p=>`<div class="card"><div class="item"><div class="emoji">${p.emoji}</div><div><h3>${p.name}</h3><p><span class="price">${p.price}</span></p><p style="font-size:13px;color:#555;">${p.desc}<br>📍 ${p.county} • ${p.seller}</p><div class="btns"><a class="call" href="tel:${p.phone}">📞 Piga</a><a class="wa" href="https://wa.me/254${p.phone.substring(1)}?text=Niaje, nimeona ${encodeURIComponent(p.name)} kwa ShambaSmart">💬 WhatsApp</a></div></div></div></div>`).join(''); }
-function postItem(){ let n=document.getElementById('sName').value, ph=document.getElementById('sPhone').value, cr=document.getElementById('sCrop').value, pr=document.getElementById('sPrice').value, co=document.getElementById('sCounty').value; if(!n||!ph||!cr||!pr||!co){ alert('Jaza kila kitu'); return; } products.unshift({emoji:"🌾",name:cr,price:pr,county:co,crop:"All",seller:n,phone:ph,desc:"Bidhaa mpya kutoka "+co}); alert('Hongera! Bidhaa imewekwa Sokoni'); renderSoko(); }
-function register(){ let n=document.getElementById('rName').value, ph=document.getElementById('rPhone').value; if(!n||!ph){ alert('Weka Jina na Simu'); return; } document.getElementById('regMsg').innerText='✅ Karibu '+n+'! Umesajiliwa ShambaSmart. Tutakutumia updates.'; }
-renderSoko();
+    if(isRain){
+      box.innerHTML = `
+        <div style="background:#e3f2fd; color:#1565c0; padding:16px; border-radius:12px; margin-top:12px; text-align:center; font-weight:800; line-height:1.5;">
+          ☔ ALERT! MVUA ${c} - ${temp}°C<br>
+          Chance ya Mvua: ${rainProb}%<br>
+          <span style="font-size:15px;">✅ PANDA SASA! Wakati mzuri wa kupanda Maize, Beans, Potatoes</span>
+        </div>`;
+    } else {
+      box.innerHTML = `
+        <div style="background:#fff3e0; color:#e65100; padding:16px; border-radius:12px; margin-top:12px; text-align:center; font-weight:800; line-height:1.5;">
+          ☀️ HAKUNA MVUA ${c} - ${temp}°C<br>
+          Chance ya Mvua: ${rainProb}%<br>
+          <span style="font-size:15px;">⛔ USIPANDE Maize Leo! Itakauka.<br>✅ Panda Sorghum, Cassava, Cowpeas - Zinavumilia Kavu</span>
+        </div>`;
+    }
+    // Save county for daily alert
+    localStorage.setItem('shamba_alert_county', c);
+  } catch(e){
+    box.innerHTML = 'Angalia anga la ' + c + ' - Kama mawingu meusi, panda. Kama jua kali, usipande Maize.';
+  }
+}
+
+function enableAlert(){
+  let c = document.getElementById('alertCounty').value;
+  if(!c){ alert('Chagua County kwanza!'); return; }
+  // Ask browser to allow notifications
+  if("Notification" in window){
+    Notification.requestPermission().then(p => {
+      if(p === "granted"){
+        alert('✅ Asante! Utapata Free Weather Alert ya ' + c + ' kila siku. Kama itanyesha, tutakuambia PANDA SASA!');
+        // Test notification
+        new Notification('🌦️ ShambaSmart Alert - ' + c, { body: 'Umejiunga na Free Weather Alert! Tutakuambia ikinyesha.' });
+      } else {
+        alert('✅ Umesajiliwa kwa Free Alert ya ' + c + '! Fungua site kila asubuhi kuona kama kunanyesha.');
+      }
+    });
+  } else {
+    alert('✅ Umesajiliwa kwa Free Alert ya ' + c + '!');
+  }
+  // Also save to Admin
+  let alerts = JSON.parse(localStorage.getItem('shamba_alerts') || '[]');
+  alerts.push({ county: c, date: new Date().toLocaleDateString() });
+  localStorage.setItem('shamba_alerts', JSON.stringify(alerts));
+}
+
+// Auto-check if user already chose county before
+window.addEventListener('load', () => {
+  let saved = localStorage.getItem('shamba_alert_county');
+  if(saved){
+    document.getElementById('alertCounty').value = saved;
+    checkAlert();
+  }
+});
 </script>
-</body>
-</html>
